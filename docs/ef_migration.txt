@@ -1,0 +1,3 @@
+dotnet ef migrations add NOME_MIGRATION --project Biblioteca.Data --startup-project Biblioteca.Api
+dotnet ef migrations remove --project Biblioteca.Data --startup-project Biblioteca.Api
+dotnet ef database update --project Biblioteca.Data --startup-project Biblioteca.Api

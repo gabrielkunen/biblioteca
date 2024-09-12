@@ -1,0 +1,1 @@
+docker exec -it ID_CONT psql bibliotecadb -U biblioteca
