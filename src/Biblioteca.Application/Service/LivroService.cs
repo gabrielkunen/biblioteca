@@ -8,11 +8,12 @@ using Biblioteca.Application.Models.Livro;
 
 namespace Biblioteca.Application.Service
 {
-    public class LivroService(ILivroRepository livroRepository, IGeneroRepository generoRepository, IUnitOfWork unitOfWork) : ILivroService
+    public class LivroService(ILivroRepository livroRepository, IGeneroRepository generoRepository, IUnitOfWork unitOfWork, IAutorRepository autorRepository) : ILivroService
     {
         private readonly ILivroRepository _livroRepository = livroRepository;
         private readonly IGeneroRepository _generoRepository = generoRepository;
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
+        private readonly IAutorRepository _autorRepository = autorRepository;
 
         public async Task<CustomResultModel<int>> Atualizar(int id, AtualizarLivroViewModel viewModel)
         {
@@ -22,6 +23,10 @@ namespace Biblioteca.Application.Service
                 return CustomResultModel<int>.Failure(new CustomErrorModel(ECodigoErro.NotFound, $"Livro id {id} não encontrado"));
 
             livro.Atualizar(viewModel.Titulo, viewModel.Isbn, viewModel.Codigo, viewModel.IdAutor);
+
+            var autor = _autorRepository.Buscar(livro.IdAutor);
+            if (autor == null)
+                return CustomResultModel<int>.Failure(new CustomErrorModel(ECodigoErro.BadRequest, "Id do autor informado não está cadastrado."));
 
             var generos = _generoRepository.Buscar(viewModel.IdsGeneros);
             if (generos.Count != viewModel.IdsGeneros.Count)
@@ -51,6 +56,12 @@ namespace Biblioteca.Application.Service
         public async Task<CustomResultModel<int>> Cadastrar(CadastrarLivroViewModel viewModel)
         {
             var livro = new Livro(viewModel.Titulo, viewModel.Isbn, viewModel.Codigo, viewModel.IdAutor);
+
+            var autor = _autorRepository.Buscar(livro.IdAutor);
+
+            if (autor == null)
+                return CustomResultModel<int>.Failure(new CustomErrorModel(ECodigoErro.BadRequest, "Id do autor informado não está cadastrado."));
+
             var generos = _generoRepository.Buscar(viewModel.Generos);
 
             if (generos.Count != viewModel.Generos.Count)

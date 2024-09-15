@@ -33,7 +33,7 @@ namespace Biblioteca.Api.Controller
             return Created("/autores", new RetornarCadastroModel(true, "Funcionário cadastrado com sucesso", retorno.Data));
         }
 
-        [HttpPost("/logar")]
+        [HttpPost("/funcionarios/logar")]
         [AllowAnonymous]
         [ProducesResponseType(typeof(LogarFuncionarioRetornoModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status400BadRequest)]

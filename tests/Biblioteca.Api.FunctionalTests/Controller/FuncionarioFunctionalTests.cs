@@ -1,0 +1,144 @@
+﻿using Biblioteca.Api.FunctionalTests.Fixture;
+using Biblioteca.Application.Models;
+using System.Net.Http.Json;
+using System.Net;
+using Xunit;
+using Biblioteca.Application.Models.Funcionario;
+using FluentAssertions;
+
+namespace Biblioteca.Api.FunctionalTests.Controller
+{
+    public class FuncionarioFunctionalTests : BaseFunctionalTests, IClassFixture<ModelsFixture>
+    {
+        public ModelsFixture _fixture;
+        public FuncionarioFunctionalTests(FunctionalTestWebApplicationFactory factory, ModelsFixture fixture) : base(factory)
+        {
+            _fixture = fixture;
+        }
+
+        [Fact]
+        public async Task Post_DeveRetornarBadRequestPoisSenhaInvalida()
+        {
+            // Arrange
+            var request = new CadastrarFuncionarioViewModel { Nome = "Paulo", Senha = "paulo", Email = "paulo@gmail.com", Tipo = Domain.Enums.ETipoFuncionario.Comum, DataNascimento = new DateTime(2000, 12, 10) };
+
+            // Act
+            var response = await HttpClient.PostAsJsonAsync("funcionarios", request);
+            var responseBody = await response.Content.ReadFromJsonAsync<RespostaPadraoModel>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            responseBody?.Sucesso.Should().BeFalse();
+            responseBody?.Mensagem.Should().Be("Senha precisa ter no mínimo 8 caracteres");
+        }
+
+        [Fact]
+        public async Task Post_DeveRetornarBadRequestPoisNomeInvalido()
+        {
+            // Arrange
+            var request = new CadastrarFuncionarioViewModel { Nome = "", Senha = "william.123", Email = "william@gmail.com", Tipo = Domain.Enums.ETipoFuncionario.Comum, DataNascimento = new DateTime(2000, 12, 10) };
+
+            // Act
+            var response = await HttpClient.PostAsJsonAsync("funcionarios", request);
+            var responseBody = await response.Content.ReadFromJsonAsync<RespostaPadraoModel>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            responseBody?.Sucesso.Should().BeFalse();
+            responseBody?.Mensagem.Should().Be("O Campo Nome é obrigatório");
+        }
+
+        [Fact]
+        public async Task Post_DeveRetornarBadRequestPoisEmailJaCadastrado()
+        {
+            // Arrange
+            var responseFuncionario = await HttpClient.PostAsJsonAsync("funcionarios", _fixture.CadastrarFuncionarioVmValido);
+            await responseFuncionario.Content.ReadFromJsonAsync<RetornarCadastroModel>();
+
+            // Act
+            var response = await HttpClient.PostAsJsonAsync("funcionarios", _fixture.CadastrarFuncionarioVmValido);
+            var responseBody = await response.Content.ReadFromJsonAsync<RetornarCadastroModel>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            responseBody?.Sucesso.Should().BeFalse();
+            responseBody?.Mensagem.Should().Be($"Funcionário com email {_fixture.CadastrarFuncionarioVmValido.Email} já cadastrado.");
+        }
+
+        [Fact]
+        public async Task Post_DeveRetornarCreated()
+        {
+            // Arrange
+            var request = new CadastrarFuncionarioViewModel { Nome = "Gabriel", Senha = "gabriel.123", Email = "gabriel@gmail.com", Tipo = Domain.Enums.ETipoFuncionario.Comum, DataNascimento = new DateTime(2000, 12, 10) };
+
+            // Act
+            var response = await HttpClient.PostAsJsonAsync("funcionarios", request);
+            var responseBody = await response.Content.ReadFromJsonAsync<RetornarCadastroModel>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.Created);
+            responseBody?.Sucesso.Should().BeTrue();
+            responseBody?.Mensagem.Should().Be("Funcionário cadastrado com sucesso");
+            responseBody?.Id.Should().NotBe(0);
+        }
+
+        [Fact]
+        public async Task Logar_DeveRetornarBadRequestEmailSenhaInvalidoPoisEmailNaoCadastrado()
+        {
+            // Arrange
+            var request = new LogarFuncionarioViewModel { Email = "emfoiewrnmuierfn", Senha = "senha" };
+
+            // Act
+            var response = await HttpClient.PostAsJsonAsync("funcionarios/logar", request);
+            var responseBody = await response.Content.ReadFromJsonAsync<RespostaPadraoModel>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            responseBody?.Sucesso.Should().BeFalse();
+            responseBody?.Mensagem.Should().Be("Email ou senha inválidos");
+        }
+
+        [Fact]
+        public async Task Logar_DeveRetornarBadRequestEmailSenhaInvalidoPoisSenhaIncorreta()
+        {
+            // Arrange
+            var requestFuncionario = new CadastrarFuncionarioViewModel { Nome = "Leonardo", Senha = "leonardo.123", Email = "leonardo@gmail.com", Tipo = Domain.Enums.ETipoFuncionario.Comum, DataNascimento = new DateTime(2000, 12, 10) };
+
+            var responseFuncionario = await HttpClient.PostAsJsonAsync("funcionarios", requestFuncionario);
+            await responseFuncionario.Content.ReadFromJsonAsync<RetornarCadastroModel>();
+
+            var request = new LogarFuncionarioViewModel { Email = "pedro@gmail.com", Senha = "senha" };
+
+            // Act
+            var response = await HttpClient.PostAsJsonAsync("funcionarios/logar", request);
+            var responseBody = await response.Content.ReadFromJsonAsync<RespostaPadraoModel>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            responseBody?.Sucesso.Should().BeFalse();
+            responseBody?.Mensagem.Should().Be("Email ou senha inválidos");
+        }
+
+        [Fact]
+        public async Task Logar_DeveRetornarOkLogadoComSucesso()
+        {
+            // Arrange
+            var requestFuncionario = new CadastrarFuncionarioViewModel { Nome = "Andre", Senha = "andre.123", Email = "andre@gmail.com", Tipo = Domain.Enums.ETipoFuncionario.Comum, DataNascimento = new DateTime(2000, 12, 10) };
+
+            var responseFuncionario = await HttpClient.PostAsJsonAsync("funcionarios", requestFuncionario);
+            await responseFuncionario.Content.ReadFromJsonAsync<RetornarCadastroModel>();
+
+            var request = new LogarFuncionarioViewModel { Email = "andre@gmail.com", Senha = "andre.123" };
+
+            // Act
+            var response = await HttpClient.PostAsJsonAsync("funcionarios/logar", request);
+            var responseBody = await response.Content.ReadFromJsonAsync<LogarFuncionarioRetornoModel>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            responseBody?.Sucesso.Should().BeTrue();
+            responseBody?.Mensagem.Should().Be("Funcionário logado com sucesso");
+            responseBody?.Token.Should().NotBeNull();
+        }
+    }
+}

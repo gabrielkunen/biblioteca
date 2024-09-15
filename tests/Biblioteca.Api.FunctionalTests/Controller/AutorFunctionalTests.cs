@@ -75,7 +75,7 @@ namespace Biblioteca.Api.FunctionalTests.Controller
 
             // Act
             var response = await HttpClient.GetAsync($"autores/{idAutor}");
-            var responseBody = await response.Content.ReadFromJsonAsync<BuscarAutorViewModel>();
+            var responseBody = await response.Content.ReadFromJsonAsync<RespostaPadraoModel>();
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
