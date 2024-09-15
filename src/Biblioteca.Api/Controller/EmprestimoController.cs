@@ -32,7 +32,7 @@ namespace Biblioteca.Api.Controller
             return Created("/emprestimos", new RetornarCadastroModel(true, "Empréstimo cadastrado com sucesso", retorno.Data));
         }
 
-        [HttpPatch("/devolver")]
+        [HttpPatch("/emprestimos/devolver")]
         [Authorize(Roles = "SuperAdministrador,Administrador")]
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status400BadRequest)]
@@ -49,7 +49,7 @@ namespace Biblioteca.Api.Controller
             return Ok(new RespostaPadraoModel(true, "Empréstimo devolvido com sucesso"));
         }
 
-        [HttpPatch("/renovar")]
+        [HttpPatch("/emprestimos/renovar")]
         [Authorize(Roles = "SuperAdministrador,Administrador")]
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status400BadRequest)]
