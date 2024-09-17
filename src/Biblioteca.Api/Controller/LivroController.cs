@@ -86,5 +86,18 @@ namespace Biblioteca.Api.Controller
 
             return Ok(new RespostaPadraoModel(true, $"Livro id {retorno.Data} removido com sucesso"));
         }
+
+        [HttpPost("/livros/relatorio")]
+        [Authorize(Roles = "SuperAdministrador,Administrador")]
+        [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GerarRelatorio()
+        {
+            _livroService.GerarRelatório();
+
+            return Ok(new RespostaPadraoModel(true, $"Relatório de livros gerado com sucesso."));
+        }
     }
 }

@@ -33,5 +33,10 @@ namespace Biblioteca.Data.Repository
         {
             _context.Livros.Remove(livro);
         }
+
+        public List<Livro> BuscarTodos()
+        {
+            return [.. _context.Livros.Include(l => l.Autor)];
+        }
     }
 }

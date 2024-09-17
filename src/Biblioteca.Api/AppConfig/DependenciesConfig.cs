@@ -1,7 +1,9 @@
 ﻿using Biblioteca.Application.Interface;
 using Biblioteca.Application.Service;
+using Biblioteca.Data.Reports;
 using Biblioteca.Data.Repository;
 using Biblioteca.Domain.Interfaces;
+using Biblioteca.Domain.Interfaces.Reports;
 using Biblioteca.Domain.Interfaces.Repository;
 
 namespace Biblioteca.Api.AppConfig
@@ -25,6 +27,7 @@ namespace Biblioteca.Api.AppConfig
             services.AddTransient<ISenhaService, SenhaService>();
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<IEmprestimoService, EmprestimoService>();
+            services.AddTransient<ILivroRelatorio, LivroRelatorio>();
 
             return services;
         }

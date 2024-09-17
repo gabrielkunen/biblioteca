@@ -10,5 +10,6 @@ namespace Biblioteca.Application.Interface
         Task<CustomResultModel<int>> Cadastrar(CadastrarLivroViewModel viewModel);
         Task<CustomResultModel<int>> Atualizar(int id, AtualizarLivroViewModel viewModel);
         Task<CustomResultModel<int>> Deletar(int id);
+        void GerarRelatório();
     }
 }

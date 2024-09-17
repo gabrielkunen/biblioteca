@@ -95,5 +95,18 @@ namespace Biblioteca.Application.Service
             await _unitOfWork.Commit();
             return CustomResultModel<int>.Success(emprestimoId);
         }
+
+        public async Task<CustomResultModel<List<BuscarEmprestimoItemViewModel>>> Buscar(int take, int page)
+        {
+            var emprestimos = await _emprestimoRepository.Buscar(take, page);
+
+            var listaEmprestimo = new List<BuscarEmprestimoItemViewModel>();
+            foreach (var e in emprestimos)
+            {
+                listaEmprestimo.Add(new BuscarEmprestimoItemViewModel { Id = e.Id, IdLivro = e.IdLivro, NomeFuncionario = e.Funcionario.Nome, NomeUsuario = e.Usuario.Nome, DataInicio = e.DataInicio.ToString("dd/MM/yyyy"), DataFim = e.DataFim.ToString("dd/MM/yyyy"), Status = e.Status.ToString(), DataDevolucao = e.DataDevolucao?.ToString("dd/MM/yyyy"), Renovado = e.Renovado });
+            }
+
+            return CustomResultModel<List<BuscarEmprestimoItemViewModel>>.Success(listaEmprestimo);
+        }
     }
 }

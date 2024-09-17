@@ -14,7 +14,7 @@ namespace Biblioteca.Domain.Entities
         public DateTime DataFim { get; private set; } = dataFim;
         public EStatusEmprestimo Status { get; private set; } = EStatusEmprestimo.Aberto;
         public DateTime? DataDevolucao { get; private set; }
-        public bool Renovado { get; set; } = false;
+        public bool Renovado { get; private set; } = false;
 
         public Livro Livro { get; set; }
         public Funcionario Funcionario { get; set; }

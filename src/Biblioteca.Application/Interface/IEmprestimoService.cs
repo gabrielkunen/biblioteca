@@ -8,5 +8,6 @@ namespace Biblioteca.Application.Interface
         Task<CustomResultModel<int>> Cadastrar(CadastrarEmprestimoViewModel viewModel);
         Task<CustomResultModel<int>> Devolver(DevolverEmprestimoViewModel viewModel);
         Task<CustomResultModel<int>> Renovar(RenovarEmprestimoViewModel viewModel);
+        Task<CustomResultModel<List<BuscarEmprestimoItemViewModel>>> Buscar(int take, int page);
     }
 }

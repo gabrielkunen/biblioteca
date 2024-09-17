@@ -8,5 +8,6 @@ namespace Biblioteca.Domain.Interfaces.Repository
         Task<Livro?> Buscar(int id);
         Task<int> Cadastrar(Livro livro);
         void Deletar(Livro livro);
+        List<Livro> BuscarTodos();
     }
 }

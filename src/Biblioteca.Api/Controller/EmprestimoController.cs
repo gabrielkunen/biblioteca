@@ -65,5 +65,21 @@ namespace Biblioteca.Api.Controller
 
             return Ok(new RespostaPadraoModel(true, "Empréstimo renovado com sucesso"));
         }
+
+        [HttpGet]
+        [Authorize(Roles = "SuperAdministrador,Administrador,Comum")]
+        [ProducesResponseType(typeof(BuscarEmprestimoViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Get([FromQuery] int take = 50, [FromQuery] int page = 1)
+        {
+            var retorno = await _emprestimoService.Buscar(take, page);
+
+            if (retorno.IsFailure)
+                return FalhaRequisicao(retorno.Error);
+
+            return Ok(new BuscarEmprestimoViewModel(true, "Empréstimos buscados com sucesso", retorno.Data));
+        }
     }
 }

@@ -5,15 +5,18 @@ using Biblioteca.Application.Models.Result;
 using Biblioteca.Domain.Enums;
 using Biblioteca.Application.Interface;
 using Biblioteca.Application.Models.Livro;
+using Biblioteca.Domain.Interfaces.Reports;
 
 namespace Biblioteca.Application.Service
 {
-    public class LivroService(ILivroRepository livroRepository, IGeneroRepository generoRepository, IUnitOfWork unitOfWork, IAutorRepository autorRepository) : ILivroService
+    public class LivroService(ILivroRepository livroRepository, IGeneroRepository generoRepository, IUnitOfWork unitOfWork, IAutorRepository autorRepository,
+        ILivroRelatorio livroRelatorio) : ILivroService
     {
         private readonly ILivroRepository _livroRepository = livroRepository;
         private readonly IGeneroRepository _generoRepository = generoRepository;
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly IAutorRepository _autorRepository = autorRepository;
+        private readonly ILivroRelatorio _livroRelatorio = livroRelatorio;
 
         public async Task<CustomResultModel<int>> Atualizar(int id, AtualizarLivroViewModel viewModel)
         {
@@ -89,6 +92,13 @@ namespace Biblioteca.Application.Service
             _livroRepository.Deletar(livro);
             await _unitOfWork.Commit();
             return CustomResultModel<int>.Success(livro.Id);
+        }
+
+        public void GerarRelatório()
+        {
+            var livros = _livroRepository.BuscarTodos();
+
+            _livroRelatorio.GerarRelatorio(livros);
         }
     }
 }

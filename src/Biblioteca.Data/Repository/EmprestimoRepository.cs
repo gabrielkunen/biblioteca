@@ -28,5 +28,14 @@ namespace Biblioteca.Data.Repository
                 .Include(e => e.Livro)
                 .FirstOrDefaultAsync(e => e.IdLivro == idLivro && e.Status == EStatusEmprestimo.Aberto && e.Livro.Status == EStatusLivro.Emprestado);
         }
+
+        public async Task<List<Emprestimo>> Buscar(int take, int page)
+        {
+            return await _context.Emprestimos
+                .Include(e => e.Usuario)
+                .Include(e => e.Funcionario)
+                .AsNoTracking()
+                .Skip((page - 1) * take).Take(take).ToListAsync();
+        }
     }
 }
