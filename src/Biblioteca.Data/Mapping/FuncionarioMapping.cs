@@ -16,11 +16,7 @@ namespace Biblioteca.Data.Mapping
                 .IsRequired()
                 .HasColumnType("varchar(500)");
 
-            builder.Property(e => e.Hash)
-                .IsRequired()
-                .HasColumnType("varchar(500)");
-
-            builder.Property(e => e.Salt)
+            builder.Property(e => e.Senha)
                 .IsRequired()
                 .HasColumnType("varchar(500)");
 

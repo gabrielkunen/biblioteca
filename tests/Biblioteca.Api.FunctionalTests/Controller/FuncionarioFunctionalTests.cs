@@ -10,10 +10,10 @@ namespace Biblioteca.Api.FunctionalTests.Controller
 {
     public class FuncionarioFunctionalTests : BaseFunctionalTests, IClassFixture<ModelsFixture>
     {
-        public ModelsFixture _fixture;
+        public readonly ModelsFixture Fixture;
         public FuncionarioFunctionalTests(FunctionalTestWebApplicationFactory factory, ModelsFixture fixture) : base(factory)
         {
-            _fixture = fixture;
+            Fixture = fixture;
         }
 
         [Fact]
@@ -29,14 +29,14 @@ namespace Biblioteca.Api.FunctionalTests.Controller
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             responseBody?.Sucesso.Should().BeFalse();
-            responseBody?.Mensagem.Should().Be("Senha precisa ter no mínimo 8 caracteres");
+            responseBody?.Mensagem.Should().Be("A senha precisa respeitar as seguintes regras: Pelo menos 1 letra maiúscula, 1 letra minúscula, 1 número, 1 caracter especial (@$!%*?&) e ter no mínimo 8 caracteres");
         }
 
         [Fact]
         public async Task Post_DeveRetornarBadRequestPoisNomeInvalido()
         {
             // Arrange
-            var request = new CadastrarFuncionarioViewModel { Nome = "", Senha = "william.123", Email = "william@gmail.com", Tipo = Domain.Enums.ETipoFuncionario.Comum, DataNascimento = new DateTime(2000, 12, 10) };
+            var request = new CadastrarFuncionarioViewModel { Nome = "", Senha = "William@123", Email = "william@gmail.com", Tipo = Domain.Enums.ETipoFuncionario.Comum, DataNascimento = new DateTime(2000, 12, 10) };
 
             // Act
             var response = await HttpClient.PostAsJsonAsync("funcionarios", request);
@@ -52,24 +52,24 @@ namespace Biblioteca.Api.FunctionalTests.Controller
         public async Task Post_DeveRetornarBadRequestPoisEmailJaCadastrado()
         {
             // Arrange
-            var responseFuncionario = await HttpClient.PostAsJsonAsync("funcionarios", _fixture.CadastrarFuncionarioVmValido);
+            var responseFuncionario = await HttpClient.PostAsJsonAsync("funcionarios", Fixture.CadastrarFuncionarioVmValido);
             await responseFuncionario.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
             // Act
-            var response = await HttpClient.PostAsJsonAsync("funcionarios", _fixture.CadastrarFuncionarioVmValido);
+            var response = await HttpClient.PostAsJsonAsync("funcionarios", Fixture.CadastrarFuncionarioVmValido);
             var responseBody = await response.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             responseBody?.Sucesso.Should().BeFalse();
-            responseBody?.Mensagem.Should().Be($"Funcionário com email {_fixture.CadastrarFuncionarioVmValido.Email} já cadastrado.");
+            responseBody?.Mensagem.Should().Be($"Funcionário com email {Fixture.CadastrarFuncionarioVmValido.Email} já cadastrado.");
         }
 
         [Fact]
         public async Task Post_DeveRetornarCreated()
         {
             // Arrange
-            var request = new CadastrarFuncionarioViewModel { Nome = "Gabriel", Senha = "gabriel.123", Email = "gabriel@gmail.com", Tipo = Domain.Enums.ETipoFuncionario.Comum, DataNascimento = new DateTime(2000, 12, 10) };
+            var request = new CadastrarFuncionarioViewModel { Nome = "Gabriel", Senha = "Gabriel@123", Email = "gabriel@gmail.com", Tipo = Domain.Enums.ETipoFuncionario.Comum, DataNascimento = new DateTime(2000, 12, 10) };
 
             // Act
             var response = await HttpClient.PostAsJsonAsync("funcionarios", request);
@@ -123,12 +123,12 @@ namespace Biblioteca.Api.FunctionalTests.Controller
         public async Task Logar_DeveRetornarOkLogadoComSucesso()
         {
             // Arrange
-            var requestFuncionario = new CadastrarFuncionarioViewModel { Nome = "Andre", Senha = "andre.123", Email = "andre@gmail.com", Tipo = Domain.Enums.ETipoFuncionario.Comum, DataNascimento = new DateTime(2000, 12, 10) };
+            var requestFuncionario = new CadastrarFuncionarioViewModel { Nome = "Andre", Senha = "Andre@123", Email = "andre@gmail.com", Tipo = Domain.Enums.ETipoFuncionario.Comum, DataNascimento = new DateTime(2000, 12, 10) };
 
             var responseFuncionario = await HttpClient.PostAsJsonAsync("funcionarios", requestFuncionario);
             await responseFuncionario.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
-            var request = new LogarFuncionarioViewModel { Email = "andre@gmail.com", Senha = "andre.123" };
+            var request = new LogarFuncionarioViewModel { Email = "andre@gmail.com", Senha = "Andre@123" };
 
             // Act
             var response = await HttpClient.PostAsJsonAsync("funcionarios/logar", request);
