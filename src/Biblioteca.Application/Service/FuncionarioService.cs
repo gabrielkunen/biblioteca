@@ -17,10 +17,9 @@ namespace Biblioteca.Application.Service
             if (senhaValida.IsFailure)
                 return CustomResultModel<int>.Failure(senhaValida.Error);
 
-            var salt = senhaService.GenerateSalt();
-            var hash = senhaService.ComputeHash(viewModel.Senha, salt, pepper, 11);
+            var hashSenha = senhaService.HashSenha(viewModel.Senha);
 
-            var funcionario = new Funcionario(viewModel.Nome, salt, hash, viewModel.Email, viewModel.DataNascimento, viewModel.Tipo);
+            var funcionario = new Funcionario(viewModel.Nome, hashSenha, viewModel.Email, viewModel.DataNascimento, viewModel.Tipo);
 
             var funcionarioExistente = funcionarioRepository.JaCadastrado(funcionario.Email);
             if (funcionarioExistente)
@@ -43,8 +42,8 @@ namespace Biblioteca.Application.Service
             if (funcionario == null)
                 return CustomResultModel<string>.Failure(new CustomErrorModel(ECodigoErro.BadRequest, $"Email ou senha inválidos"));
 
-            var hash = senhaService.ComputeHash(viewModel.Senha, funcionario.Salt, pepper, 11);
-            if (funcionario.Hash != hash)
+            var senhaValida = senhaService.SenhaValida(viewModel.Senha, funcionario.Senha);
+            if (!senhaValida)
                 return CustomResultModel<string>.Failure(new CustomErrorModel(ECodigoErro.BadRequest, $"Email ou senha inválidos"));
 
             var bearerToken = tokenService.Gerar(authToken, funcionario);

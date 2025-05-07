@@ -5,7 +5,7 @@ namespace Biblioteca.Application.Interface
     public interface ISenhaService
     {
         CustomResultModel<bool> SenhaValida(string? senha);
-        string GenerateSalt();
-        string ComputeHash(string password, string salt, string pepper, int iteration);
+        bool SenhaValida(string senhaRequest, string senhaAtual);
+        string HashSenha(string senha);
     }
 }

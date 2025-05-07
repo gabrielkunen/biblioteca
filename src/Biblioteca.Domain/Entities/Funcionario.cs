@@ -4,12 +4,11 @@ using FluentValidation.Results;
 
 namespace Biblioteca.Domain.Entities
 {
-    public class Funcionario(string nome, string salt, string hash, string email, DateTime dataNascimento, ETipoFuncionario tipo) : EntityBase
+    public class Funcionario(string nome, string senha, string email, DateTime dataNascimento, ETipoFuncionario tipo) : EntityBase
     {
         public int Id { get; set; }
         public string Nome { get; private set; } = nome;
-        public string Salt { get; private set; } = salt;
-        public string Hash { get; private set; } = hash;
+        public string Senha { get; private set; } = senha;
         public string Email { get; private set; } = email;
         public DateTime DataNascimento { get; private set; } = dataNascimento;
         public ETipoFuncionario Tipo { get; private set; } = tipo;
@@ -37,17 +36,11 @@ namespace Biblioteca.Domain.Entities
                 .MaximumLength(200)
                 .WithMessage("O Campo Email deve ter no máximo 200 caracteres");
 
-            RuleFor(x => x.Salt)
+            RuleFor(x => x.Senha)
                 .NotEmpty()
-                .WithMessage("O Campo Salt é obrigatório")
+                .WithMessage("O Campo Senha é obrigatório")
                 .MaximumLength(500)
-                .WithMessage("O Campo Salt deve ter no máximo 500 caracteres");
-
-            RuleFor(x => x.Hash)
-                .NotEmpty()
-                .WithMessage("O Campo Hash é obrigatório")
-                .MaximumLength(500)
-                .WithMessage("O Campo Hash deve ter no máximo 500 caracteres");
+                .WithMessage("O Campo Senha deve ter no máximo 500 caracteres");
 
             RuleFor(x => x.DataNascimento)
                 .NotEmpty()
