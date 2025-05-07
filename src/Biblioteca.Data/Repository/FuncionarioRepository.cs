@@ -6,22 +6,21 @@ namespace Biblioteca.Data.Repository
 {
     public class FuncionarioRepository(BibliotecaContext context) : IFuncionarioRepository
     {
-        private readonly BibliotecaContext _context = context;
         public async Task<int> Cadastrar(Funcionario funcionario)
         {
-            _context.Funcionarios.Add(funcionario);
-            await _context.SaveChangesAsync();
+            context.Funcionarios.Add(funcionario);
+            await context.SaveChangesAsync();
             return funcionario.Id;
         }
 
         public bool JaCadastrado(string email)
         {
-            return _context.Funcionarios.Any(funcionario => funcionario.Email == email);
+            return context.Funcionarios.Any(funcionario => funcionario.Email == email);
         }
 
         public Funcionario? Buscar(string email)
         {
-            return _context.Funcionarios.FirstOrDefault(funcionario => funcionario.Email == email);
+            return context.Funcionarios.FirstOrDefault(funcionario => funcionario.Email == email);
         }
     }
 }

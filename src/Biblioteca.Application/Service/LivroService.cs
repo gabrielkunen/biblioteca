@@ -12,26 +12,20 @@ namespace Biblioteca.Application.Service
     public class LivroService(ILivroRepository livroRepository, IGeneroRepository generoRepository, IUnitOfWork unitOfWork, IAutorRepository autorRepository,
         ILivroRelatorio livroRelatorio) : ILivroService
     {
-        private readonly ILivroRepository _livroRepository = livroRepository;
-        private readonly IGeneroRepository _generoRepository = generoRepository;
-        private readonly IUnitOfWork _unitOfWork = unitOfWork;
-        private readonly IAutorRepository _autorRepository = autorRepository;
-        private readonly ILivroRelatorio _livroRelatorio = livroRelatorio;
-
         public async Task<CustomResultModel<int>> Atualizar(int id, AtualizarLivroViewModel viewModel)
         {
-            var livro = await _livroRepository.Buscar(id);
+            var livro = await livroRepository.Buscar(id);
 
             if (livro == null)
                 return CustomResultModel<int>.Failure(new CustomErrorModel(ECodigoErro.NotFound, $"Livro id {id} não encontrado"));
 
             livro.Atualizar(viewModel.Titulo, viewModel.Isbn, viewModel.Codigo, viewModel.IdAutor);
 
-            var autor = _autorRepository.Buscar(livro.IdAutor);
+            var autor = autorRepository.Buscar(livro.IdAutor);
             if (autor == null)
                 return CustomResultModel<int>.Failure(new CustomErrorModel(ECodigoErro.BadRequest, "Id do autor informado não está cadastrado."));
 
-            var generos = _generoRepository.Buscar(viewModel.IdsGeneros);
+            var generos = generoRepository.Buscar(viewModel.IdsGeneros);
             if (generos.Count != viewModel.IdsGeneros.Count)
                 return CustomResultModel<int>.Failure(new CustomErrorModel(ECodigoErro.BadRequest, "Ids dos gêneros informados não estão cadastrados."));
 
@@ -41,14 +35,14 @@ namespace Biblioteca.Application.Service
             if (!validacao.IsValid)
                 return CustomResultModel<int>.Failure(new CustomErrorModel(ECodigoErro.BadRequest, validacao.Errors[0].ErrorMessage));
 
-            _livroRepository.Atualizar(livro);
-            await _unitOfWork.Commit();
+            livroRepository.Atualizar(livro);
+            await unitOfWork.Commit();
             return CustomResultModel<int>.Success(livro.Id);
         }
 
         public async Task<CustomResultModel<Livro>> BuscarPorId(int id)
         {
-            var livro = await _livroRepository.Buscar(id);
+            var livro = await livroRepository.Buscar(id);
 
             if (livro == null)
                 return CustomResultModel<Livro>.Failure(new CustomErrorModel(ECodigoErro.NotFound, $"Livro id {id} não encontrado"));
@@ -60,12 +54,12 @@ namespace Biblioteca.Application.Service
         {
             var livro = new Livro(viewModel.Titulo, viewModel.Isbn, viewModel.Codigo, viewModel.IdAutor);
 
-            var autor = _autorRepository.Buscar(livro.IdAutor);
+            var autor = autorRepository.Buscar(livro.IdAutor);
 
             if (autor == null)
                 return CustomResultModel<int>.Failure(new CustomErrorModel(ECodigoErro.BadRequest, "Id do autor informado não está cadastrado."));
 
-            var generos = _generoRepository.Buscar(viewModel.Generos);
+            var generos = generoRepository.Buscar(viewModel.Generos);
 
             if (generos.Count != viewModel.Generos.Count)
                 return CustomResultModel<int>.Failure(new CustomErrorModel(ECodigoErro.BadRequest, "Ids dos gêneros informados não estão cadastrados."));
@@ -77,28 +71,28 @@ namespace Biblioteca.Application.Service
             if (!validacao.IsValid)
                 return CustomResultModel<int>.Failure(new CustomErrorModel(ECodigoErro.BadRequest, validacao.Errors[0].ErrorMessage));
 
-            var livroId = await _livroRepository.Cadastrar(livro);
-            await _unitOfWork.Commit();
+            var livroId = await livroRepository.Cadastrar(livro);
+            await unitOfWork.Commit();
             return CustomResultModel<int>.Success(livroId);
         }
 
         public async Task<CustomResultModel<int>> Deletar(int id)
         {
-            var livro = await _livroRepository.Buscar(id);
+            var livro = await livroRepository.Buscar(id);
 
             if (livro == null)
                 return CustomResultModel<int>.Failure(new CustomErrorModel(ECodigoErro.NotFound, $"Livro id {id} não encontrado"));
 
-            _livroRepository.Deletar(livro);
-            await _unitOfWork.Commit();
+            livroRepository.Deletar(livro);
+            await unitOfWork.Commit();
             return CustomResultModel<int>.Success(livro.Id);
         }
 
         public void GerarRelatório()
         {
-            var livros = _livroRepository.BuscarTodos();
+            var livros = livroRepository.BuscarTodos();
 
-            _livroRelatorio.GerarRelatorio(livros);
+            livroRelatorio.GerarRelatorio(livros);
         }
     }
 }

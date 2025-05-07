@@ -13,8 +13,6 @@ namespace Biblioteca.Api.Controller
     [Route("/emprestimos")]
     public class EmprestimoController(IEmprestimoService emprestimoService) : ApiControllerBase
     {
-        private readonly IEmprestimoService _emprestimoService = emprestimoService;
-
         [HttpPost]
         [Authorize(Roles = "SuperAdministrador,Administrador")]
         [ProducesResponseType(typeof(RetornarCadastroModel), StatusCodes.Status201Created)]
@@ -24,7 +22,7 @@ namespace Biblioteca.Api.Controller
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post([FromBody] CadastrarEmprestimoViewModel viewModel)
         {
-            var retorno = await _emprestimoService.Cadastrar(viewModel);
+            var retorno = await emprestimoService.Cadastrar(viewModel);
 
             if (retorno.IsFailure)
                 return FalhaRequisicao(retorno.Error);
@@ -41,7 +39,7 @@ namespace Biblioteca.Api.Controller
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Devolver([FromBody] DevolverEmprestimoViewModel viewModel)
         {
-            var retorno = await _emprestimoService.Devolver(viewModel);
+            var retorno = await emprestimoService.Devolver(viewModel);
 
             if (retorno.IsFailure)
                 return FalhaRequisicao(retorno.Error);
@@ -58,7 +56,7 @@ namespace Biblioteca.Api.Controller
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Renovar([FromBody] RenovarEmprestimoViewModel viewModel)
         {
-            var retorno = await _emprestimoService.Renovar(viewModel);
+            var retorno = await emprestimoService.Renovar(viewModel);
 
             if (retorno.IsFailure)
                 return FalhaRequisicao(retorno.Error);
@@ -74,7 +72,7 @@ namespace Biblioteca.Api.Controller
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get([FromQuery] int take = 50, [FromQuery] int page = 1)
         {
-            var retorno = await _emprestimoService.Buscar(take, page);
+            var retorno = await emprestimoService.Buscar(take, page);
 
             if (retorno.IsFailure)
                 return FalhaRequisicao(retorno.Error);

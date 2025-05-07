@@ -13,8 +13,6 @@ namespace Biblioteca.Api.Controller
     [Route("/livros")]
     public class LivroController(ILivroService livroService) : ApiControllerBase
     {
-        private readonly ILivroService _livroService = livroService;
-
         [HttpPost]
         [Authorize(Roles = "SuperAdministrador,Administrador")]
         [ProducesResponseType(typeof(RetornarCadastroModel), StatusCodes.Status201Created)]
@@ -24,7 +22,7 @@ namespace Biblioteca.Api.Controller
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post([FromBody] CadastrarLivroViewModel viewModel)
         {
-            var retorno = await _livroService.Cadastrar(viewModel);
+            var retorno = await livroService.Cadastrar(viewModel);
 
             if (retorno.IsFailure)
                 return FalhaRequisicao(retorno.Error);
@@ -41,7 +39,7 @@ namespace Biblioteca.Api.Controller
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> BuscarPorId([FromRoute] int id)
         {
-            var livro = await _livroService.BuscarPorId(id);
+            var livro = await livroService.BuscarPorId(id);
 
             if (livro.IsFailure)
                 return FalhaRequisicao(livro.Error);
@@ -62,7 +60,7 @@ namespace Biblioteca.Api.Controller
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Put([FromRoute] int id, [FromBody] AtualizarLivroViewModel viewModel)
         {
-            var retorno = await _livroService.Atualizar(id, viewModel);
+            var retorno = await livroService.Atualizar(id, viewModel);
 
             if (retorno.IsFailure)
                 return FalhaRequisicao(retorno.Error);
@@ -79,7 +77,7 @@ namespace Biblioteca.Api.Controller
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            var retorno = await _livroService.Deletar(id);
+            var retorno = await livroService.Deletar(id);
 
             if (retorno.IsFailure)
                 return FalhaRequisicao(retorno.Error);
@@ -93,9 +91,9 @@ namespace Biblioteca.Api.Controller
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GerarRelatorio()
+        public IActionResult GerarRelatorio()
         {
-            _livroService.GerarRelatório();
+            livroService.GerarRelatório();
 
             return Ok(new RespostaPadraoModel(true, $"Relatório de livros gerado com sucesso."));
         }

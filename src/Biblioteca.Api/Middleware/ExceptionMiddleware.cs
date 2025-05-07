@@ -6,7 +6,7 @@ namespace Biblioteca.Api.Middleware
 {
     public class ExceptionMiddleware
     {
-        private readonly RequestDelegate next;
+        private readonly RequestDelegate _next;
 
         /// <summary>
         /// ctor
@@ -14,15 +14,14 @@ namespace Biblioteca.Api.Middleware
         /// <param name="next"></param>
         public ExceptionMiddleware(RequestDelegate next)
         {
-            this.next = next;
+            _next = next;
         }
 
-        /// <inheritdoc />
         public async Task Invoke(HttpContext context)
         {
             try
             {
-                await next(context);
+                await _next(context);
             }
             catch (Exception ex)
             {
@@ -35,7 +34,7 @@ namespace Biblioteca.Api.Middleware
             RespostaPadraoModel response;
 
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
-                response = new RespostaPadraoModel(false, $"Exception: Mensagem: {ex.Message}; InnerException: {ex?.InnerException?.Message}; StackTrace: {ex?.StackTrace}");
+                response = new RespostaPadraoModel(false, $"Exception: Mensagem: {ex.Message}; InnerException: {ex.InnerException?.Message}; StackTrace: {ex.StackTrace}");
             else
                 response = new RespostaPadraoModel(false, "Ocorreu um erro no processamento da sua requisição. Por favor tente novamente mais tarde.");
 

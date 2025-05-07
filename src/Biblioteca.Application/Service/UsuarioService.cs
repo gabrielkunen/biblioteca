@@ -10,14 +10,11 @@ namespace Biblioteca.Application.Service
 {
     public class UsuarioService(IUsuarioRepository usuarioRepository, IUnitOfWork unitOfWork) : IUsuarioService
     {
-        private readonly IUsuarioRepository _usuarioRepository = usuarioRepository;
-        private readonly IUnitOfWork _unitOfWork = unitOfWork;
-
         public async Task<CustomResultModel<int>> Cadastrar(CadastrarUsuarioViewModel viewModel)
         {
             var usuario = new Usuario(viewModel.Nome, viewModel.Email, viewModel.LimiteEmprestimo, viewModel.DataNascimento, viewModel.Tipo);
 
-            var usuarioExistente = _usuarioRepository.JaCadastrado(usuario.Email);
+            var usuarioExistente = usuarioRepository.JaCadastrado(usuario.Email);
             if (usuarioExistente)
                 return CustomResultModel<int>.Failure(new CustomErrorModel(ECodigoErro.BadRequest, $"Usuário com email {usuario.Email} já cadastrado."));
 
@@ -25,15 +22,15 @@ namespace Biblioteca.Application.Service
             if (!validacao.IsValid)
                 return CustomResultModel<int>.Failure(new CustomErrorModel(ECodigoErro.BadRequest, validacao.Errors[0].ErrorMessage));
 
-            var usuarioId = await _usuarioRepository.Cadastrar(usuario);
-            await _unitOfWork.Commit();
+            var usuarioId = await usuarioRepository.Cadastrar(usuario);
+            await unitOfWork.Commit();
 
             return CustomResultModel<int>.Success(usuarioId);
         }
 
         public CustomResultModel<BuscarUsuarioViewModel> BuscarPorId(int id)
         {
-            var usuario = _usuarioRepository.Buscar(id);
+            var usuario = usuarioRepository.Buscar(id);
             if (usuario == null)
                 return CustomResultModel<BuscarUsuarioViewModel>.Failure(new CustomErrorModel(ECodigoErro.NotFound, $"Usuário id {id} não encontrado"));
 
@@ -42,7 +39,7 @@ namespace Biblioteca.Application.Service
 
         public async Task<CustomResultModel<int>> Atualizar(int id, AtualizarUsuarioViewModel viewModel)
         {
-            var usuario = _usuarioRepository.Buscar(id);
+            var usuario = usuarioRepository.Buscar(id);
 
             if (usuario == null)
                 return CustomResultModel<int>.Failure(new CustomErrorModel(ECodigoErro.NotFound, $"Usuário id {id} não encontrado"));
@@ -53,21 +50,21 @@ namespace Biblioteca.Application.Service
             if (!validacao.IsValid)
                 return CustomResultModel<int>.Failure(new CustomErrorModel(ECodigoErro.BadRequest, validacao.Errors[0].ErrorMessage));
 
-            _usuarioRepository.Atualizar(usuario);
-            await _unitOfWork.Commit();
+            usuarioRepository.Atualizar(usuario);
+            await unitOfWork.Commit();
 
             return CustomResultModel<int>.Success(usuario.Id);
         }
 
         public async Task<CustomResultModel<int>> Deletar(int id)
         {
-            var usuario = _usuarioRepository.Buscar(id);
+            var usuario = usuarioRepository.Buscar(id);
 
             if (usuario == null)
                 return CustomResultModel<int>.Failure(new CustomErrorModel(ECodigoErro.NotFound, $"Usuário id {id} não encontrado"));
 
-            _usuarioRepository.Deletar(usuario);
-            await _unitOfWork.Commit();
+            usuarioRepository.Deletar(usuario);
+            await unitOfWork.Commit();
             return CustomResultModel<int>.Success(usuario.Id);
         }
     }

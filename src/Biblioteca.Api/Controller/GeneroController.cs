@@ -13,8 +13,6 @@ namespace Biblioteca.Api.Controller
     [Route("/generos")]
     public class GeneroController(IGeneroService generoService) : ApiControllerBase
     {
-        private readonly IGeneroService _generoService = generoService;
-
         [HttpPost]
         [Authorize(Roles = "SuperAdministrador,Administrador")]
         [ProducesResponseType(typeof(RetornarCadastroModel), StatusCodes.Status201Created)]
@@ -24,7 +22,7 @@ namespace Biblioteca.Api.Controller
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post([FromBody] CadastrarGeneroViewModel viewModel)
         {
-            var retorno = await _generoService.Cadastrar(viewModel);
+            var retorno = await generoService.Cadastrar(viewModel);
 
             if (retorno.IsFailure)
                 return FalhaRequisicao(retorno.Error);
@@ -42,7 +40,7 @@ namespace Biblioteca.Api.Controller
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Put([FromRoute] int id, [FromBody] AtualizarGeneroViewModel viewModel)
         {
-            var retorno = await _generoService.Atualizar(id, viewModel);
+            var retorno = await generoService.Atualizar(id, viewModel);
 
             if (retorno.IsFailure)
                 return FalhaRequisicao(retorno.Error);
@@ -60,7 +58,7 @@ namespace Biblioteca.Api.Controller
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            var retorno = await _generoService.Deletar(id);
+            var retorno = await generoService.Deletar(id);
 
             if (retorno.IsFailure)
                 return FalhaRequisicao(retorno.Error);

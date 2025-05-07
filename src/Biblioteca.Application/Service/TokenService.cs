@@ -10,8 +10,6 @@ namespace Biblioteca.Application.Service
 {
     public class TokenService(IHttpContextAccessor httpContextAccessor) : ITokenService
     {
-        private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
-
         public string Gerar(string authToken, Funcionario funcionario)
         {
             var handler = new JwtSecurityTokenHandler();
@@ -31,7 +29,7 @@ namespace Biblioteca.Application.Service
 
         public int BuscarIdFuncionario()
         {
-            var funcionarioLogado = _httpContextAccessor.HttpContext!.User;
+            var funcionarioLogado = httpContextAccessor.HttpContext!.User;
             return Convert.ToInt32(funcionarioLogado.FindFirst("Id")!.Value);
         }
 
