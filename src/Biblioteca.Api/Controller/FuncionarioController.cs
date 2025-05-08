@@ -10,7 +10,7 @@ namespace Biblioteca.Api.Controller
     [ApiController]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
-    [Route("/funcionarios")]
+    [Route("/v{apiVersion:apiVersion}/funcionarios")]
     public class FuncionarioController(IFuncionarioService funcionarioService, IConfiguration configuration) : ApiControllerBase
     {
         [HttpPost]
@@ -30,7 +30,7 @@ namespace Biblioteca.Api.Controller
             return Created("/autores", new RetornarCadastroModel(true, "Funcionário cadastrado com sucesso", retorno.Data));
         }
 
-        [HttpPost("/funcionarios/logar")]
+        [HttpPost("/v{apiVersion:apiVersion}/funcionarios/logar")]
         [AllowAnonymous]
         [ProducesResponseType(typeof(LogarFuncionarioRetornoModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status400BadRequest)]

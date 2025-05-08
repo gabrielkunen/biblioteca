@@ -10,7 +10,7 @@ namespace Biblioteca.Api.Controller
     [ApiController]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
-    [Route("/emprestimos")]
+    [Route("/v{apiVersion:apiVersion}/emprestimos")]
     public class EmprestimoController(IEmprestimoService emprestimoService) : ApiControllerBase
     {
         [HttpPost]

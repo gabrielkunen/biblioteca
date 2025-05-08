@@ -10,7 +10,7 @@ namespace Biblioteca.Api.Controller
     [ApiController]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
-    [Route("/autores")]
+    [Route("/v{apiVersion:apiVersion}/autores")]
     public class AutorController(IAutorService autorService) : ApiControllerBase
     {
         [HttpPost]

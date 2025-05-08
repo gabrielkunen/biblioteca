@@ -10,7 +10,7 @@ namespace Biblioteca.Api.Controller
     [ApiController]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
-    [Route("/generos")]
+    [Route("/v{apiVersion:apiVersion}/generos")]
     public class GeneroController(IGeneroService generoService) : ApiControllerBase
     {
         [HttpPost]

@@ -10,7 +10,7 @@ namespace Biblioteca.Api.Controller
     [ApiController]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
-    [Route("/usuarios")]
+    [Route("/v{apiVersion:apiVersion}/usuarios")]
     public class UsuarioController(IUsuarioService usuarioService) : ApiControllerBase
     {
         [HttpPost]

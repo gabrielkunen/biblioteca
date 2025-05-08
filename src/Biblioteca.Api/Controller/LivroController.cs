@@ -10,7 +10,7 @@ namespace Biblioteca.Api.Controller
     [ApiController]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
-    [Route("/livros")]
+    [Route("/v{apiVersion:apiVersion}/livros")]
     public class LivroController(ILivroService livroService) : ApiControllerBase
     {
         [HttpPost]
