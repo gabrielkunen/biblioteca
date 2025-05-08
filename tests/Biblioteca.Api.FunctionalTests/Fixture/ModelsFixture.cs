@@ -44,7 +44,7 @@ namespace Biblioteca.Api.FunctionalTests.Fixture
                 Nome = "Pedro",
                 DataNascimento = new DateTime(2000, 12, 10),
                 Email = "pedro@gmail.com",
-                Senha = "pedro.123",
+                Senha = "Pedro@123",
                 Tipo = Domain.Enums.ETipoFuncionario.Comum
             };
 
