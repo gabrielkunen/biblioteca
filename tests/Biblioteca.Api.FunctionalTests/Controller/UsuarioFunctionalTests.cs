@@ -25,7 +25,7 @@ namespace Biblioteca.Api.FunctionalTests.Controller
             var request = new CadastrarUsuarioViewModel { Nome = "", Email = "william@gmail.com", LimiteEmprestimo = 10, DataNascimento = new DateTime(2000, 12, 10), Tipo = ETipoUsuario.Aluno };
 
             // Act
-            var response = await HttpClient.PostAsJsonAsync("usuarios", request);
+            var response = await HttpClient.PostAsJsonAsync("v1/usuarios", request);
             var responseBody = await response.Content.ReadFromJsonAsync<RespostaPadraoModel>();
 
             // Assert
@@ -38,11 +38,11 @@ namespace Biblioteca.Api.FunctionalTests.Controller
         public async Task Post_DeveRetornarBadRequestPoisEmailJaCadastrado()
         {
             // Arrange
-            var responseUsuario = await HttpClient.PostAsJsonAsync("usuarios", _fixture.CadastrarUsuarioVmValido);
+            var responseUsuario = await HttpClient.PostAsJsonAsync("v1/usuarios", _fixture.CadastrarUsuarioVmValido);
             await responseUsuario.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
             // Act
-            var response = await HttpClient.PostAsJsonAsync("usuarios", _fixture.CadastrarUsuarioVmValido);
+            var response = await HttpClient.PostAsJsonAsync("v1/usuarios", _fixture.CadastrarUsuarioVmValido);
             var responseBody = await response.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
             // Assert
@@ -58,7 +58,7 @@ namespace Biblioteca.Api.FunctionalTests.Controller
             var request = new CadastrarUsuarioViewModel { Nome = "Gabriel", Email = "gabriel@gmail.com", LimiteEmprestimo = 10, DataNascimento = new DateTime(2000, 12, 10), Tipo = ETipoUsuario.Professor };
 
             // Act
-            var response = await HttpClient.PostAsJsonAsync("usuarios", request);
+            var response = await HttpClient.PostAsJsonAsync("v1/usuarios", request);
             var responseBody = await response.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
             // Assert
@@ -75,7 +75,7 @@ namespace Biblioteca.Api.FunctionalTests.Controller
             var idUsuario = 999999;
 
             // Act
-            var response = await HttpClient.GetAsync($"usuarios/{idUsuario}");
+            var response = await HttpClient.GetAsync($"v1/usuarios/{idUsuario}");
             var responseBody = await response.Content.ReadFromJsonAsync<RespostaPadraoModel>();
 
             // Assert
@@ -90,11 +90,11 @@ namespace Biblioteca.Api.FunctionalTests.Controller
             // Arrange
             var requestUsuario = new CadastrarUsuarioViewModel { Nome = "Elton", Email = "elton@gmail.com", LimiteEmprestimo = 10, DataNascimento = new DateTime(2000, 12, 10), Tipo = ETipoUsuario.Visitante };
 
-            var responsePost = await HttpClient.PostAsJsonAsync("usuarios", requestUsuario);
+            var responsePost = await HttpClient.PostAsJsonAsync("v1/usuarios", requestUsuario);
             var responsePostBody = await responsePost.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
             // Act
-            var response = await HttpClient.GetAsync($"usuarios/{responsePostBody?.Id}");
+            var response = await HttpClient.GetAsync($"v1/usuarios/{responsePostBody?.Id}");
             var responseBody = await response.Content.ReadFromJsonAsync<BuscarAutorViewModel>();
 
             // Assert
@@ -111,7 +111,7 @@ namespace Biblioteca.Api.FunctionalTests.Controller
             var idUsuario = 999999;
 
             // Act
-            var response = await HttpClient.DeleteAsync($"usuarios/{idUsuario}");
+            var response = await HttpClient.DeleteAsync($"v1/usuarios/{idUsuario}");
             var responseBody = await response.Content.ReadFromJsonAsync<RespostaPadraoModel>();
 
             // Assert
@@ -126,11 +126,11 @@ namespace Biblioteca.Api.FunctionalTests.Controller
             // Arrange
             var requestUsuario = new CadastrarUsuarioViewModel { Nome = "Fatima", Email = "fatima@gmail.com", LimiteEmprestimo = 10, DataNascimento = new DateTime(2000, 12, 10), Tipo = ETipoUsuario.Visitante };
 
-            var responsePost = await HttpClient.PostAsJsonAsync("usuarios", requestUsuario);
+            var responsePost = await HttpClient.PostAsJsonAsync("v1/usuarios", requestUsuario);
             var responsePostBody = await responsePost.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
             // Act
-            var response = await HttpClient.DeleteAsync($"usuarios/{responsePostBody?.Id}");
+            var response = await HttpClient.DeleteAsync($"v1/usuarios/{responsePostBody?.Id}");
             var responseBody = await response.Content.ReadFromJsonAsync<RespostaPadraoModel>();
 
             // Assert
@@ -146,7 +146,7 @@ namespace Biblioteca.Api.FunctionalTests.Controller
             var idUsuario = 999999;
 
             // Act
-            var response = await HttpClient.PutAsJsonAsync($"usuarios/{idUsuario}", _fixture.AtualizarUsuarioVmValido);
+            var response = await HttpClient.PutAsJsonAsync($"v1/usuarios/{idUsuario}", _fixture.AtualizarUsuarioVmValido);
             var responseBody = await response.Content.ReadFromJsonAsync<RespostaPadraoModel>();
 
             // Assert
@@ -161,13 +161,13 @@ namespace Biblioteca.Api.FunctionalTests.Controller
             // Arrange
             var requestUsuario = new CadastrarUsuarioViewModel { Nome = "Silvia", Email = "silvia@gmail.com", LimiteEmprestimo = 10, DataNascimento = new DateTime(2000, 12, 10), Tipo = ETipoUsuario.Visitante };
 
-            var responsePost = await HttpClient.PostAsJsonAsync("usuarios", requestUsuario);
+            var responsePost = await HttpClient.PostAsJsonAsync("v1/usuarios", requestUsuario);
             var responsePostBody = await responsePost.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
             var request = new AtualizarUsuarioViewModel { Nome = "", Email = "silvia@gmail.com", LimiteEmprestimo = 10, DataNascimento = new DateTime(2000, 12, 10), Tipo = ETipoUsuario.Aluno };
 
             // Act
-            var response = await HttpClient.PutAsJsonAsync($"usuarios/{responsePostBody!.Id}", request);
+            var response = await HttpClient.PutAsJsonAsync($"v1/usuarios/{responsePostBody!.Id}", request);
             var responseBody = await response.Content.ReadFromJsonAsync<RespostaPadraoModel>();
 
             // Assert
@@ -182,13 +182,13 @@ namespace Biblioteca.Api.FunctionalTests.Controller
             // Arrange
             var requestUsuario = new CadastrarUsuarioViewModel { Nome = "Carlos", Email = "carlos@gmail.com", LimiteEmprestimo = 10, DataNascimento = new DateTime(2000, 12, 10), Tipo = ETipoUsuario.Visitante };
 
-            var responsePost = await HttpClient.PostAsJsonAsync("usuarios", requestUsuario);
+            var responsePost = await HttpClient.PostAsJsonAsync("v1/usuarios", requestUsuario);
             var responsePostBody = await responsePost.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
             var request = new AtualizarUsuarioViewModel { Nome = "Carlos", Email = "carlos@gmail.com", LimiteEmprestimo = 5, DataNascimento = new DateTime(2000, 12, 10), Tipo = ETipoUsuario.Visitante };
 
             // Act
-            var response = await HttpClient.PutAsJsonAsync($"usuarios/{responsePostBody?.Id}", request);
+            var response = await HttpClient.PutAsJsonAsync($"v1/usuarios/{responsePostBody?.Id}", request);
             var responseBody = await response.Content.ReadFromJsonAsync<RetornarAtualizaModel>();
 
             // Assert
