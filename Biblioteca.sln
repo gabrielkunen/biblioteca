@@ -29,7 +29,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "7 - Docs", "7 - Docs", "{36
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6 - Docker", "6 - Docker", "{CDC2F5CA-9645-4C76-8031-4CC8BD592323}"
 	ProjectSection(SolutionItems) = preProject
-		docker-compose.yml = docker-compose.yml
+		Dockerfile = Dockerfile
+		compose.yml = compose.yml
+		.env = .env
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Biblioteca.Domain.UnitTests", "tests\Biblioteca.Domain.UnitTests\Biblioteca.Domain.UnitTests.csproj", "{8CA8BFB4-2232-4CE8-988E-FD1C598A12BC}"

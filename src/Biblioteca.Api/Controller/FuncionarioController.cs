@@ -22,7 +22,7 @@ namespace Biblioteca.Api.Controller
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post([FromBody] CadastrarFuncionarioViewModel viewModel)
         {
-            var retorno = await funcionarioService.Cadastrar(configuration["Pepper"]!, viewModel);
+            var retorno = await funcionarioService.Cadastrar(viewModel);
 
             if (retorno.IsFailure)
                 return FalhaRequisicao(retorno.Error);
@@ -39,7 +39,7 @@ namespace Biblioteca.Api.Controller
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status500InternalServerError)]
         public IActionResult Post([FromBody] LogarFuncionarioViewModel viewModel)
         {
-            var retorno = funcionarioService.Logar(configuration["Pepper"]!, configuration["AuthToken"]!, viewModel);
+            var retorno = funcionarioService.Logar(viewModel);
 
             if (retorno.IsFailure)
                 return FalhaRequisicao(retorno.Error);

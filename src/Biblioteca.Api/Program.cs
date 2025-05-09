@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDatabaseConfiguration(builder.Configuration);
+builder.Services.AddDatabaseConfiguration();
 builder.Services.AddVersioningServices();
 builder.Services.AddSwaggerServices();
-builder.Services.AddAutenticacaoServices(builder.Configuration);
+builder.Services.AddAutenticacaoServices();
 builder.Services.ResolveDependencies();
 builder.Services.AddHttpContextAccessor();
 

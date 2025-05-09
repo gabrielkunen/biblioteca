@@ -6,7 +6,7 @@ namespace Biblioteca.Api.AppConfig;
 
 public static class AuthConfig
 {
-    public static IServiceCollection AddAutenticacaoServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddAutenticacaoServices(this IServiceCollection services)
     {
         services.AddAuthentication(options =>
             {
@@ -18,7 +18,7 @@ public static class AuthConfig
                 options.SaveToken = true;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration["AuthToken"]!)),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("AUTH_TOKEN")!)),
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };

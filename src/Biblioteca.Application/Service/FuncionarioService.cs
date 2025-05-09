@@ -10,7 +10,7 @@ namespace Biblioteca.Application.Service
 {
     public class FuncionarioService(IFuncionarioRepository funcionarioRepository, IUnitOfWork unitOfWork, ISenhaService senhaService, ITokenService tokenService) : IFuncionarioService
     {
-        public async Task<CustomResultModel<int>> Cadastrar(string pepper, CadastrarFuncionarioViewModel viewModel)
+        public async Task<CustomResultModel<int>> Cadastrar(CadastrarFuncionarioViewModel viewModel)
         {
             var senhaValida = senhaService.SenhaValida(viewModel.Senha);
 
@@ -35,7 +35,7 @@ namespace Biblioteca.Application.Service
             return CustomResultModel<int>.Success(funcionarioId);
         }
 
-        public CustomResultModel<string> Logar(string pepper, string authToken, LogarFuncionarioViewModel viewModel)
+        public CustomResultModel<string> Logar(LogarFuncionarioViewModel viewModel)
         {
             var funcionario = funcionarioRepository.Buscar(viewModel.Email);
 
@@ -46,7 +46,7 @@ namespace Biblioteca.Application.Service
             if (!senhaValida)
                 return CustomResultModel<string>.Failure(new CustomErrorModel(ECodigoErro.BadRequest, $"Email ou senha inválidos"));
 
-            var bearerToken = tokenService.Gerar(authToken, funcionario);
+            var bearerToken = tokenService.Gerar(Environment.GetEnvironmentVariable("AUTH_TOKEN")!, funcionario);
 
             return CustomResultModel<string>.Success(bearerToken);
         }
