@@ -17,9 +17,9 @@ namespace Biblioteca.Data.Repository
             return context.Generos.Where(g => ids.Contains(g.Id)).ToList();
         }
 
-        public async Task<Genero?> Buscar(int id)
+        public Genero? Buscar(int id)
         {
-            return await context.Generos.FirstOrDefaultAsync(g => g.Id == id);
+            return context.Generos.FirstOrDefault(g => g.Id == id);
         }
 
         public async Task<int> Cadastrar(Genero genero)

@@ -12,7 +12,7 @@ namespace Biblioteca.Application.Service
     {
         public async Task<CustomResultModel<int>> Atualizar(int id, AtualizarGeneroViewModel viewModel)
         {
-            var genero = await generoRepository.Buscar(id);
+            var genero = generoRepository.Buscar(id);
 
             if (genero == null)
                 return CustomResultModel<int>.Failure(new CustomErrorModel(ECodigoErro.NotFound, $"Gênero id {id} não encontrado"));
@@ -25,12 +25,13 @@ namespace Biblioteca.Application.Service
 
             generoRepository.Atualizar(genero);
             await unitOfWork.Commit();
+            
             return CustomResultModel<int>.Success(genero.Id);
         }
 
-        public async Task<CustomResultModel<Genero>> BuscarPorId(int id)
+        public CustomResultModel<Genero> BuscarPorId(int id)
         {
-            var genero = await generoRepository.Buscar(id);
+            var genero = generoRepository.Buscar(id);
 
             if (genero == null)
                 return CustomResultModel<Genero>.Failure(new CustomErrorModel(ECodigoErro.NotFound, $"Gênero id {id} não encontrado"));
@@ -48,13 +49,13 @@ namespace Biblioteca.Application.Service
                 return CustomResultModel<int>.Failure(new CustomErrorModel(ECodigoErro.BadRequest, validacao.Errors[0].ErrorMessage));
 
             var generoId = await generoRepository.Cadastrar(genero);
-            await unitOfWork.Commit();
+            
             return CustomResultModel<int>.Success(generoId);
         }
 
         public async Task<CustomResultModel<int>> Deletar(int id)
         {
-            var genero = await generoRepository.Buscar(id);
+            var genero = generoRepository.Buscar(id);
 
             if (genero == null)
                 return CustomResultModel<int>.Failure(new CustomErrorModel(ECodigoErro.NotFound, $"Gênero id {id} não encontrado"));
@@ -65,6 +66,7 @@ namespace Biblioteca.Application.Service
 
             generoRepository.Deletar(genero);
             await unitOfWork.Commit();
+            
             return CustomResultModel<int>.Success(genero.Id);
         }
     }

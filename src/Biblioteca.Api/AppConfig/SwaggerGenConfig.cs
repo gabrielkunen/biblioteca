@@ -20,7 +20,7 @@ public class SwaggerGenConfig : IConfigureNamedOptions<SwaggerGenOptions>
         {
             var openApiInfo = new OpenApiInfo
             {
-                Title = $"api-nendoroid v{description.ApiVersion}",
+                Title = $"api-biblioteca v{description.ApiVersion}",
                 Version = description.ApiVersion.ToString()
             };
             

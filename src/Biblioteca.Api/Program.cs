@@ -11,7 +11,6 @@ builder.Services.AddSwaggerServices();
 builder.Services.AddAutenticacaoServices();
 builder.Services.ResolveDependencies();
 builder.Services.AddHttpContextAccessor();
-
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 

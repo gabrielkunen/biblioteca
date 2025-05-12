@@ -23,7 +23,6 @@ namespace Biblioteca.Application.Service
                 return CustomResultModel<int>.Failure(new CustomErrorModel(ECodigoErro.BadRequest, validacao.Errors[0].ErrorMessage));
 
             var usuarioId = await usuarioRepository.Cadastrar(usuario);
-            await unitOfWork.Commit();
 
             return CustomResultModel<int>.Success(usuarioId);
         }
@@ -65,6 +64,7 @@ namespace Biblioteca.Application.Service
 
             usuarioRepository.Deletar(usuario);
             await unitOfWork.Commit();
+            
             return CustomResultModel<int>.Success(usuario.Id);
         }
     }

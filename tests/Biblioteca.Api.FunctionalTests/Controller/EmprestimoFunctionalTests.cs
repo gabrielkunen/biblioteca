@@ -126,7 +126,7 @@ namespace Biblioteca.Api.FunctionalTests.Controller
             var responsePostUsuario = await HttpClient.PostAsJsonAsync("v1/usuarios", requestUsuario);
             var responsePostUsuarioBody = await responsePostUsuario.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
-            var requestFuncionario = new CadastrarFuncionarioViewModel { Nome = "Guilherme", Senha = "guilherme.123", Email = "guilherme@gmail.com", Tipo = ETipoFuncionario.Comum, DataNascimento = new DateTime(2000, 12, 10) };
+            var requestFuncionario = new CadastrarFuncionarioViewModel { Nome = "Guilherme", Senha = "Guilherme@123", Email = "guilherme@gmail.com", Tipo = ETipoFuncionario.Comum, DataNascimento = new DateTime(2000, 12, 10) };
 
             var responseFuncionario = await HttpClient.PostAsJsonAsync("v1/funcionarios", requestFuncionario);
             await responseFuncionario.Content.ReadFromJsonAsync<RetornarCadastroModel>();
@@ -164,7 +164,7 @@ namespace Biblioteca.Api.FunctionalTests.Controller
             var responsePostUsuario = await HttpClient.PostAsJsonAsync("v1/usuarios", requestUsuario);
             var responsePostUsuarioBody = await responsePostUsuario.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
-            var requestFuncionario = new CadastrarFuncionarioViewModel { Nome = "Guilherme", Senha = "guilherme.123", Email = "guilherme@gmail.com", Tipo = ETipoFuncionario.Comum, DataNascimento = new DateTime(2000, 12, 10) };
+            var requestFuncionario = new CadastrarFuncionarioViewModel { Nome = "Guilherme", Senha = "Guilherme@123", Email = "guilherme@gmail.com", Tipo = ETipoFuncionario.Comum, DataNascimento = new DateTime(2000, 12, 10) };
 
             var responseFuncionario = await HttpClient.PostAsJsonAsync("v1/funcionarios", requestFuncionario);
             await responseFuncionario.Content.ReadFromJsonAsync<RetornarCadastroModel>();
@@ -209,7 +209,7 @@ namespace Biblioteca.Api.FunctionalTests.Controller
             var responsePostUsuario = await HttpClient.PostAsJsonAsync("v1/usuarios", requestUsuario);
             var responsePostUsuarioBody = await responsePostUsuario.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
-            var requestFuncionario = new CadastrarFuncionarioViewModel { Nome = "Guilherme", Senha = "guilherme.123", Email = "guilherme@gmail.com", Tipo = ETipoFuncionario.Comum, DataNascimento = new DateTime(2000, 12, 10) };
+            var requestFuncionario = new CadastrarFuncionarioViewModel { Nome = "Guilherme", Senha = "Guilherme@123", Email = "guilherme@gmail.com", Tipo = ETipoFuncionario.Comum, DataNascimento = new DateTime(2000, 12, 10) };
 
             var responseFuncionario = await HttpClient.PostAsJsonAsync("v1/funcionarios", requestFuncionario);
             await responseFuncionario.Content.ReadFromJsonAsync<RetornarCadastroModel>();
@@ -277,7 +277,7 @@ namespace Biblioteca.Api.FunctionalTests.Controller
             var responsePostUsuario = await HttpClient.PostAsJsonAsync("v1/usuarios", requestUsuario);
             var responsePostUsuarioBody = await responsePostUsuario.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
-            var requestFuncionario = new CadastrarFuncionarioViewModel { Nome = "Annie", Senha = "annie.123", Email = "annie@gmail.com", Tipo = ETipoFuncionario.Comum, DataNascimento = new DateTime(2000, 12, 10) };
+            var requestFuncionario = new CadastrarFuncionarioViewModel { Nome = "Annie", Senha = "Annie@123", Email = "annie@gmail.com", Tipo = ETipoFuncionario.Comum, DataNascimento = new DateTime(2000, 12, 10) };
 
             var responseFuncionario = await HttpClient.PostAsJsonAsync("v1/funcionarios", requestFuncionario);
             await responseFuncionario.Content.ReadFromJsonAsync<RetornarCadastroModel>();
@@ -318,7 +318,7 @@ namespace Biblioteca.Api.FunctionalTests.Controller
             var responsePostUsuario = await HttpClient.PostAsJsonAsync("v1/usuarios", requestUsuario);
             var responsePostUsuarioBody = await responsePostUsuario.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
-            var requestFuncionario = new CadastrarFuncionarioViewModel { Nome = "Joao", Senha = "joao.123", Email = "joao@gmail.com", Tipo = ETipoFuncionario.Comum, DataNascimento = new DateTime(2000, 12, 10) };
+            var requestFuncionario = new CadastrarFuncionarioViewModel { Nome = "Joao", Senha = "Joao@123", Email = "joao@gmail.com", Tipo = ETipoFuncionario.Comum, DataNascimento = new DateTime(2000, 12, 10) };
 
             var responseFuncionario = await HttpClient.PostAsJsonAsync("v1/funcionarios", requestFuncionario);
             await responseFuncionario.Content.ReadFromJsonAsync<RetornarCadastroModel>();
@@ -385,7 +385,7 @@ namespace Biblioteca.Api.FunctionalTests.Controller
             var responsePostUsuario = await HttpClient.PostAsJsonAsync("v1/usuarios", requestUsuario);
             var responsePostUsuarioBody = await responsePostUsuario.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
-            var requestFuncionario = new CadastrarFuncionarioViewModel { Nome = "Sofia", Senha = "sofia.123", Email = "sofia@gmail.com", Tipo = ETipoFuncionario.Comum, DataNascimento = new DateTime(2000, 12, 10) };
+            var requestFuncionario = new CadastrarFuncionarioViewModel { Nome = "Sofia", Senha = "Sofia@123", Email = "sofia@gmail.com", Tipo = ETipoFuncionario.Comum, DataNascimento = new DateTime(2000, 12, 10) };
 
             var responseFuncionario = await HttpClient.PostAsJsonAsync("v1/funcionarios", requestFuncionario);
             await responseFuncionario.Content.ReadFromJsonAsync<RetornarCadastroModel>();
@@ -426,7 +426,7 @@ namespace Biblioteca.Api.FunctionalTests.Controller
             var responsePostUsuario = await HttpClient.PostAsJsonAsync("v1/usuarios", requestUsuario);
             var responsePostUsuarioBody = await responsePostUsuario.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
-            var requestFuncionario = new CadastrarFuncionarioViewModel { Nome = "Beatriz", Senha = "beatriz.123", Email = "beatriz@gmail.com", Tipo = ETipoFuncionario.Comum, DataNascimento = new DateTime(2000, 12, 10) };
+            var requestFuncionario = new CadastrarFuncionarioViewModel { Nome = "Beatriz", Senha = "Beatriz@123", Email = "beatriz@gmail.com", Tipo = ETipoFuncionario.Comum, DataNascimento = new DateTime(2000, 12, 10) };
 
             var responseFuncionario = await HttpClient.PostAsJsonAsync("v1/funcionarios", requestFuncionario);
             await responseFuncionario.Content.ReadFromJsonAsync<RetornarCadastroModel>();
@@ -470,7 +470,7 @@ namespace Biblioteca.Api.FunctionalTests.Controller
             var responsePostUsuario = await HttpClient.PostAsJsonAsync("v1/usuarios", requestUsuario);
             var responsePostUsuarioBody = await responsePostUsuario.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
-            var requestFuncionario = new CadastrarFuncionarioViewModel { Nome = "José", Senha = "jose.123", Email = "jose@gmail.com", Tipo = ETipoFuncionario.Comum, DataNascimento = new DateTime(2000, 12, 10) };
+            var requestFuncionario = new CadastrarFuncionarioViewModel { Nome = "José", Senha = "Jose@123", Email = "jose@gmail.com", Tipo = ETipoFuncionario.Comum, DataNascimento = new DateTime(2000, 12, 10) };
 
             var responseFuncionario = await HttpClient.PostAsJsonAsync("v1/funcionarios", requestFuncionario);
             await responseFuncionario.Content.ReadFromJsonAsync<RetornarCadastroModel>();

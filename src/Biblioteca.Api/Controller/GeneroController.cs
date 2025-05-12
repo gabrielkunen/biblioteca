@@ -65,5 +65,22 @@ namespace Biblioteca.Api.Controller
 
             return Ok(new RespostaPadraoModel(true, $"Gênero id {retorno.Data} removido com sucesso"));
         }
+        
+        [HttpGet("{id}")]
+        [Authorize(Roles = "SuperAdministrador,Administrador,Comum")]
+        [ProducesResponseType(typeof(BuscarGeneroViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status500InternalServerError)]
+        public IActionResult BuscarPorId([FromRoute] int id)
+        {
+            var genero = generoService.BuscarPorId(id);
+
+            if (genero.IsFailure)
+                return FalhaRequisicao(genero.Error);
+
+            return Ok(new BuscarGeneroViewModel(true, "Gênero buscado com sucesso", genero.Data.Id, genero.Data.Nome));
+        }
     }
 }

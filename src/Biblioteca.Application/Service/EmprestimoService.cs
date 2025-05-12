@@ -28,7 +28,7 @@ namespace Biblioteca.Application.Service
                 return CustomResultModel<int>.Failure(new CustomErrorModel(ECodigoErro.BadRequest, $"Livro id {emprestimo.IdLivro} já se encontra emprestado"));
 
             if (!emprestimo.DataFimMaiorQueDataInicio())
-                return CustomResultModel<int>.Failure(new CustomErrorModel(ECodigoErro.BadRequest, $"A DataFim precisa ser maior que a DataInicio"));
+                return CustomResultModel<int>.Failure(new CustomErrorModel(ECodigoErro.BadRequest, "A DataFim precisa ser maior que a DataInicio"));
 
             var usuario = usuarioRepository.Buscar(emprestimo.IdUsuario);
             if (usuario == null)

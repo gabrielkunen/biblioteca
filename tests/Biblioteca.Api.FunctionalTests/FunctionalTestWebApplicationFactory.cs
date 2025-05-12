@@ -22,6 +22,7 @@ namespace Biblioteca.Api.FunctionalTests
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
+            Environment.SetEnvironmentVariable("AUTH_TOKEN", "cc6f9796-62a4-4e58-9816-c88b52c39d84");
             builder.UseEnvironment("Test");
             builder.ConfigureTestServices(services =>
             {

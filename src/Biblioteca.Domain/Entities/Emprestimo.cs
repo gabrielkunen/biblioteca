@@ -43,7 +43,7 @@ namespace Biblioteca.Domain.Entities
 
         public bool JaFoiRenovado()
         {
-            return Renovado == true;
+            return Renovado;
         }
 
         public ValidationResult Validar()

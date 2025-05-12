@@ -23,7 +23,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5 - Tests", "5 - Tests", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "7 - Docs", "7 - Docs", "{36CEC7BE-B557-4C1A-B66B-350DEF7D994E}"
 	ProjectSection(SolutionItems) = preProject
-		docs\docker.txt = docs\docker.txt
 		docs\ef_migration.txt = docs\ef_migration.txt
 	EndProjectSection
 EndProject

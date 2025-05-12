@@ -21,7 +21,7 @@ namespace Biblioteca.Application.Service
                 Subject = GerarClaims(funcionario),
                 Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = credentials,
-                Issuer = "vigne.dev"
+                Issuer = "gabrielkunen.xyz"
             };
             var token = handler.CreateToken(tokenDescriptor);
             return handler.WriteToken(token);

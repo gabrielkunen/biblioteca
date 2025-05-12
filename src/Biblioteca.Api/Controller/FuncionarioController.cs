@@ -11,10 +11,9 @@ namespace Biblioteca.Api.Controller
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
     [Route("/v{apiVersion:apiVersion}/funcionarios")]
-    public class FuncionarioController(IFuncionarioService funcionarioService, IConfiguration configuration) : ApiControllerBase
+    public class FuncionarioController(IFuncionarioService funcionarioService) : ApiControllerBase
     {
         [HttpPost]
-        [Authorize(Roles = "SuperAdministrador")]
         [ProducesResponseType(typeof(RetornarCadastroModel), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status401Unauthorized)]

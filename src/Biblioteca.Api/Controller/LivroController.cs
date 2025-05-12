@@ -85,7 +85,7 @@ namespace Biblioteca.Api.Controller
             return Ok(new RespostaPadraoModel(true, $"Livro id {retorno.Data} removido com sucesso"));
         }
 
-        [HttpPost("/livros/relatorio")]
+        [HttpPost("/v{apiVersion:apiVersion}/livros/relatorio")]
         [Authorize(Roles = "SuperAdministrador,Administrador")]
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status401Unauthorized)]
@@ -95,7 +95,7 @@ namespace Biblioteca.Api.Controller
         {
             livroService.GerarRelatório();
 
-            return Ok(new RespostaPadraoModel(true, $"Relatório de livros gerado com sucesso."));
+            return Ok(new RespostaPadraoModel(true, "Relatório de livros gerado com sucesso."));
         }
     }
 }

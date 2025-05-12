@@ -12,7 +12,7 @@ namespace Biblioteca.Application.Service
             if (string.IsNullOrEmpty(senha))
                 return CustomResultModel<bool>.Failure(new CustomErrorModel(ECodigoErro.BadRequest, $"Senha não informada"));
 
-            var pattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$";
+            const string pattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$";
             var senhaValida = Regex.IsMatch(senha, pattern);
             return !senhaValida 
                 ? CustomResultModel<bool>.Failure(new CustomErrorModel(ECodigoErro.BadRequest, "A senha precisa respeitar as seguintes regras: Pelo menos 1 letra maiúscula, 1 letra minúscula, 1 número, 1 caracter especial (@$!%*?&) e ter no mínimo 8 caracteres")) 

@@ -29,7 +29,6 @@ namespace Biblioteca.Application.Service
                 return CustomResultModel<int>.Failure(new CustomErrorModel(ECodigoErro.BadRequest, validacao.Errors[0].ErrorMessage));
 
             var autorId = await autorRepository.Cadastrar(autor);
-            await unitOfWork.Commit();
 
             return CustomResultModel<int>.Success(autorId);
         }
@@ -65,6 +64,7 @@ namespace Biblioteca.Application.Service
 
             autorRepository.Deletar(autor);
             await unitOfWork.Commit();
+            
             return CustomResultModel<int>.Success(autor.Id);
         }
     }
