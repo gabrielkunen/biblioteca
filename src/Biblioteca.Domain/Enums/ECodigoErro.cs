@@ -4,6 +4,7 @@
     {
         BadRequest = 400,
         NotFound = 404,
-        InternaServerError = 500
+        InternaServerError = 500,
+        ServiceUnavailable = 503
     }
 }

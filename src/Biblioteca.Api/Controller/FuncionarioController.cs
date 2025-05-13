@@ -16,8 +16,6 @@ namespace Biblioteca.Api.Controller
         [HttpPost]
         [ProducesResponseType(typeof(RetornarCadastroModel), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post([FromBody] CadastrarFuncionarioViewModel viewModel)
         {
@@ -26,7 +24,7 @@ namespace Biblioteca.Api.Controller
             if (retorno.IsFailure)
                 return FalhaRequisicao(retorno.Error);
 
-            return Created("/autores", new RetornarCadastroModel(true, "Funcionário cadastrado com sucesso", retorno.Data));
+            return Created("/functionarios", new RetornarCadastroModel(true, "Funcionário cadastrado com sucesso", retorno.Data));
         }
 
         [HttpPost("/v{apiVersion:apiVersion}/funcionarios/logar")]

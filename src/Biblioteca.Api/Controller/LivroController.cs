@@ -87,15 +87,18 @@ namespace Biblioteca.Api.Controller
 
         [HttpPost("/v{apiVersion:apiVersion}/livros/relatorio")]
         [Authorize(Roles = "SuperAdministrador,Administrador")]
-        [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(RetornarGerarRelatorioLivroViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status500InternalServerError)]
-        public IActionResult GerarRelatorio()
+        public async Task<IActionResult> GerarRelatorio([FromBody] GerarRelatorioLivroViewModel viewModel)
         {
-            livroService.GerarRelatório();
+            var retorno = await livroService.GerarRelatório(viewModel);
 
-            return Ok(new RespostaPadraoModel(true, "Relatório de livros gerado com sucesso."));
+            if (retorno.IsFailure)
+                return FalhaRequisicao(retorno.Error);
+            
+            return Ok(new RetornarGerarRelatorioLivroViewModel(true, "Relatório de livros gerado com sucesso.", retorno.Data.Etag, retorno.Data.NomeArquivo, retorno.Data.TipoArquivo));
         }
     }
 }

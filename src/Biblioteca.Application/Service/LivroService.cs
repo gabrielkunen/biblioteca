@@ -4,13 +4,15 @@ using Biblioteca.Domain.Interfaces;
 using Biblioteca.Application.Models.Result;
 using Biblioteca.Domain.Enums;
 using Biblioteca.Application.Interface;
+using Biblioteca.Application.Interface.External;
+using Biblioteca.Application.Models.Cloudflare;
 using Biblioteca.Application.Models.Livro;
 using Biblioteca.Domain.Interfaces.Reports;
 
 namespace Biblioteca.Application.Service
 {
     public class LivroService(ILivroRepository livroRepository, IGeneroRepository generoRepository, IUnitOfWork unitOfWork, IAutorRepository autorRepository,
-        ILivroRelatorio livroRelatorio) : ILivroService
+        ILivroRelatorio livroRelatorio, ICloudflareR2Client cloudflareR2Client) : ILivroService
     {
         public async Task<CustomResultModel<int>> Atualizar(int id, AtualizarLivroViewModel viewModel)
         {
@@ -89,11 +91,18 @@ namespace Biblioteca.Application.Service
             return CustomResultModel<int>.Success(livro.Id);
         }
 
-        public void GerarRelatório()
+        public async Task<CustomResultModel<UploadArquivoDto>> GerarRelatório(GerarRelatorioLivroViewModel viewModel)
         {
             var livros = livroRepository.BuscarTodos();
+            var relatorio = livroRelatorio.GerarRelatorio(livros);
+            
+            var chaveArquivo = "relatorio-livros-" + DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fff") + ".pdf";
+            var retornoUpload = await cloudflareR2Client.UploadArquivo(chaveArquivo, "application/pdf", relatorio);
+            
+            if (retornoUpload.IsFailure)
+                return CustomResultModel<UploadArquivoDto>.Failure(retornoUpload.Error with { Mensagem = retornoUpload.Error.Mensagem });
 
-            livroRelatorio.GerarRelatorio(livros);
+            return CustomResultModel<UploadArquivoDto>.Success(retornoUpload.Data);
         }
     }
 }

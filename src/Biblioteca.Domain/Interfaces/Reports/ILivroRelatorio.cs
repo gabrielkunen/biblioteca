@@ -4,6 +4,6 @@ namespace Biblioteca.Domain.Interfaces.Reports
 {
     public interface ILivroRelatorio
     {
-        void GerarRelatorio(List<Livro> livros);
+        byte[] GerarRelatorio(List<Livro> livros);
     }
 }

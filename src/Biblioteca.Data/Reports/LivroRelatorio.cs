@@ -8,15 +8,13 @@ namespace Biblioteca.Data.Reports
 {
     public class LivroRelatorio : ILivroRelatorio
     {
-        public void GerarRelatorio(List<Livro> livros)
+        public byte[] GerarRelatorio(List<Livro> livros)
         {
-            var data = DateTime.Now;
-            var dataAtual = data.ToString("yyyyMMdd_HHmmss");
             var dataAtualRodape = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
 
             QuestPDF.Settings.License = LicenseType.Community;
 
-            Document.Create(container =>
+            return Document.Create(container =>
             {
                 container.Page(page =>
                 {
@@ -62,7 +60,7 @@ namespace Biblioteca.Data.Reports
                     ConfigurarRodape(page, dataAtualRodape);
                 });
             })
-            .GeneratePdf($"relatorios/status_acervo_{dataAtual}.pdf");
+            .GeneratePdf();
         }
 
         private void ConfigurarCabecalho(PageDescriptor page)
