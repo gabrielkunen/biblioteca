@@ -1,7 +1,9 @@
 ﻿using Biblioteca.Application.Interface;
 using Biblioteca.Application.Interface.External;
+using Biblioteca.Application.Interface.Factory;
 using Biblioteca.Application.Service;
 using Biblioteca.Data.External;
+using Biblioteca.Data.Factory;
 using Biblioteca.Data.Reports;
 using Biblioteca.Data.Repository;
 using Biblioteca.Domain.Interfaces;
@@ -29,7 +31,9 @@ public static class DependenciesConfig
         services.AddTransient<ISenhaService, SenhaService>();
         services.AddTransient<ITokenService, TokenService>();
         services.AddTransient<IEmprestimoService, EmprestimoService>();
-        services.AddTransient<ILivroRelatorio, LivroRelatorio>();
+        services.AddTransient<IRelatorioLivro, RelatorioLivroPdf>();
+        services.AddTransient<IRelatorioLivro, RelatorioLivroTxt>();
+        services.AddTransient<IRelatorioLivroFactory, RelatorioLivroFactory>();
         services.AddScoped<ICloudflareR2Client, CloudflareR2Client>();
 
         return services;

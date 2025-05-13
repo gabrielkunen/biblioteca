@@ -1,9 +1,11 @@
 ﻿using Biblioteca.Domain.Entities;
+using Biblioteca.Domain.Enums;
 
-namespace Biblioteca.Domain.Interfaces.Reports
+namespace Biblioteca.Domain.Interfaces.Reports;
+
+public interface IRelatorioLivro
 {
-    public interface ILivroRelatorio
-    {
-        byte[] GerarRelatorio(List<Livro> livros);
-    }
+    string NomeArquivo { get; }
+    ETipoConteudo TipoArquivo { get; }
+    byte[] GerarRelatorio(List<Livro> livros);
 }

@@ -1,4 +1,5 @@
 ﻿using Biblioteca.Domain.Entities;
+using Biblioteca.Domain.Enums;
 using Biblioteca.Domain.Interfaces.Reports;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
@@ -6,8 +7,10 @@ using QuestPDF.Infrastructure;
 
 namespace Biblioteca.Data.Reports
 {
-    public class LivroRelatorio : ILivroRelatorio
+    public class RelatorioLivroPdf : IRelatorioLivro
     {
+        public string NomeArquivo => "relatorio-livros-" + DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fff") + ".pdf";
+        public ETipoConteudo TipoArquivo => ETipoConteudo.Pdf;
         public byte[] GerarRelatorio(List<Livro> livros)
         {
             var dataAtualRodape = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
