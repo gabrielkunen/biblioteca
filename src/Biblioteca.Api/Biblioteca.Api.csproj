@@ -22,4 +22,8 @@
     <ProjectReference Include="..\Biblioteca.Data\Biblioteca.Data.csproj" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+  
 </Project>
