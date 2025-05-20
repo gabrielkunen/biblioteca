@@ -11,6 +11,7 @@ namespace Biblioteca.Application.Interface
         Task<CustomResultModel<int>> Cadastrar(CadastrarLivroViewModel viewModel);
         Task<CustomResultModel<int>> Atualizar(int id, AtualizarLivroViewModel viewModel);
         Task<CustomResultModel<int>> Deletar(int id);
-        Task<CustomResultModel<UploadArquivoDto>> GerarRelatório(GerarRelatorioLivroViewModel viewModel);
+        Task<CustomResultModel<UploadArquivoDto>> GerarRelatórioCloud(GerarRelatorioLivroViewModel viewModel);
+        CustomResultModel<LivroRelatorioDto> GerarRelatório(GerarRelatorioLivroViewModel viewModel);
     }
 }

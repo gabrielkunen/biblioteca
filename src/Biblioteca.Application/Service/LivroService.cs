@@ -93,7 +93,7 @@ public class LivroService(ILivroRepository livroRepository, IGeneroRepository ge
         return CustomResultModel<int>.Success(livro.Id);
     }
 
-    public async Task<CustomResultModel<UploadArquivoDto>> GerarRelatório(GerarRelatorioLivroViewModel viewModel)
+    public async Task<CustomResultModel<UploadArquivoDto>> GerarRelatórioCloud(GerarRelatorioLivroViewModel viewModel)
     {
         var validacao = viewModel.Validar();
 
@@ -111,5 +111,20 @@ public class LivroService(ILivroRepository livroRepository, IGeneroRepository ge
             return CustomResultModel<UploadArquivoDto>.Failure(retornoUpload.Error with { Mensagem = retornoUpload.Error.Mensagem });
 
         return CustomResultModel<UploadArquivoDto>.Success(retornoUpload.Data);
+    }
+    
+    public CustomResultModel<LivroRelatorioDto> GerarRelatório(GerarRelatorioLivroViewModel viewModel)
+    {
+        var validacao = viewModel.Validar();
+
+        if (!validacao.IsValid)
+            return CustomResultModel<LivroRelatorioDto>.Failure(new CustomErrorModel(ECodigoErro.BadRequest, validacao.Errors[0].ErrorMessage));
+            
+        var livros = livroRepository.BuscarTodos();
+        var relatorioLivro = relatorioLivroFactory.Gerar((ETipoConteudo)viewModel.TipoConteudo!);
+        var relatorio = relatorioLivro.GerarRelatorio(livros);
+        var contentType = relatorioLivro.TipoArquivo.GetAttributeOfType<DescriptionAttribute>()!.Description;
+            
+        return CustomResultModel<LivroRelatorioDto>.Success(new LivroRelatorioDto(relatorioLivro.NomeArquivo, contentType, relatorio));
     }
 }

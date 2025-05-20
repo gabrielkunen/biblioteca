@@ -4,6 +4,8 @@ using Biblioteca.Application.Models.Autor;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
+using Biblioteca.Application.Models.Result;
+using Biblioteca.Domain.Enums;
 
 namespace Biblioteca.Api.Controller
 {
@@ -28,8 +30,8 @@ namespace Biblioteca.Api.Controller
         ///
         ///     POST /autores
         ///     {
-        ///        "Nome": "John Flanagan",
-        ///        "DataNascimento": "1944-05-22",
+        ///       "nome": "John Flanagan",
+        ///       "dataNascimento": "1944-05-22"
         ///     }
         ///
         /// </remarks>
@@ -47,6 +49,9 @@ namespace Biblioteca.Api.Controller
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post([FromBody] CadastrarAutorViewModel viewModel)
         {
+            if (viewModel is null)
+                return FalhaRequisicao(new CustomErrorModel(ECodigoErro.BadRequest, "Corpo de requisição não enviada"));
+            
             var retorno = await autorService.Cadastrar(viewModel);
 
             if (retorno.IsFailure)
@@ -93,19 +98,19 @@ namespace Biblioteca.Api.Controller
         /// </summary>
         /// <param name="id"></param>
         /// <param name="viewModel"></param>
-        /// <returns>O autor editado</returns>
+        /// <returns>O id do autor editado</returns>
         /// <remarks>
         /// Request exemplo:
         ///
         ///     PUT /autores
         ///     {
-        ///        "Nome": "John Flanagan",
-        ///        "DataNascimento": "1944-05-22",
+        ///       "nome": "John Flanagan",
+        ///       "dataNascimento": "1944-05-22"
         ///     }
         ///
         /// </remarks>
         /// <response code="200">O id do autor que foi atualizado</response>
-        /// <response code="400">Erro na requisição enviada</response>
+        /// <response code="400">Erro no corpo da requisição</response>
         /// <response code="401">Não autenticado</response>
         /// <response code="403">Não autorizado</response>
         /// <response code="404">Id não cadastrado</response>
@@ -120,6 +125,9 @@ namespace Biblioteca.Api.Controller
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Put([FromRoute] int id, [FromBody] AtualizarAutorViewModel viewModel)
         {
+            if (viewModel is null)
+                return FalhaRequisicao(new CustomErrorModel(ECodigoErro.BadRequest, "Corpo de requisição não enviada"));
+            
             var retorno = await autorService.Atualizar(id, viewModel);
 
             if (retorno.IsFailure)
@@ -140,7 +148,7 @@ namespace Biblioteca.Api.Controller
         ///
         /// </remarks>
         /// <response code="200">Mensagem de sucesso</response>
-        /// <response code="400">Erro na requisição enviada</response>
+        /// <response code="400">Erro no corpo da requisição</response>
         /// <response code="401">Não autenticado</response>
         /// <response code="403">Não autorizado</response>
         /// <response code="404">Id não cadastrado</response>
