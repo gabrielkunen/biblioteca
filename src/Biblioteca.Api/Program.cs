@@ -56,7 +56,7 @@ if(!builder.Environment.IsDevelopment())
 await using(var serviceScope = app.Services.CreateAsyncScope())
 await using (var context = serviceScope.ServiceProvider.GetRequiredService<BibliotecaContext>())
 {
-    await context.Database.EnsureCreatedAsync();
+    context.Database.EnsureCreated();
 }
 
 app.MapControllers();
