@@ -15,6 +15,20 @@ services:
     networks:
       - biblioteca
   
+  migrations:
+    container_name: biblioteca-migrations
+    build:
+      context: .
+      dockerfile: .
+      target: migrations
+    restart: no
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+    depends_on:
+      - db
+    networks:
+      - biblioteca
+  
   db:
     image: postgres:latest
     container_name: biblioteca-db
