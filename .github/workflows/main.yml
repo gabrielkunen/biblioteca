@@ -1,0 +1,35 @@
+name: API-BIBLIOTECA
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  tests:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0'
+
+      - name: Restore Dependencies Biblioteca.Domain.UnitTests
+        run: dotnet restore ./tests/Biblioteca.Domain.UnitTests/Biblioteca.Domain.UnitTests.csproj
+
+      - name: Run Tests Biblioteca.Domain.UnitTests
+        run: dotnet test ./tests/Biblioteca.Domain.UnitTests/Biblioteca.Domain.UnitTests.csproj --verbosity minimal
+
+      - name: Restore Dependencies Biblioteca.Application.UnitTests
+        run: dotnet restore ./tests/Biblioteca.Application.UnitTests/Biblioteca.Application.UnitTests.csproj
+
+      - name: Run Tests Biblioteca.Application.UnitTests
+        run: dotnet test ./tests/Biblioteca.Application.UnitTests/Biblioteca.Application.UnitTests.csproj --verbosity minimal
+
+      - name: Restore Dependencies Biblioteca.Api.FunctionalTests
+        run: dotnet restore ./tests/Biblioteca.Api.FunctionalTests/Biblioteca.Api.FunctionalTests.csproj
+
+      - name: Run Tests Biblioteca.Api.FunctionalTests
+        run: dotnet test ./tests/Biblioteca.Api.FunctionalTests/Biblioteca.Api.FunctionalTests.csproj --verbosity minimal
