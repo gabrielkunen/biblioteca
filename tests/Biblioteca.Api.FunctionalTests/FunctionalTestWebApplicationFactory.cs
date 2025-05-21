@@ -23,6 +23,7 @@ namespace Biblioteca.Api.FunctionalTests
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             Environment.SetEnvironmentVariable("AUTH_TOKEN", "cc6f9796-62a4-4e58-9816-c88b52c39d84");
+            Environment.SetEnvironmentVariable("ADMIN_PASSWORD", "senha");
             builder.UseEnvironment("Test");
             builder.ConfigureTestServices(services =>
             {
@@ -35,14 +36,7 @@ namespace Biblioteca.Api.FunctionalTests
                     options.DefaultAuthenticateScheme = "TestScheme";
                     options.DefaultScheme = "TestScheme";
                 }).AddScheme<AuthenticationSchemeOptions, TestAuthHandler>(
-                    "TestScheme", options => { });
-
-                var dbContextOptions = new DbContextOptionsBuilder<BibliotecaContext>()
-                    .UseNpgsql(_dbContainer.GetConnectionString().ToString())
-                    .Options;
-
-                using var context = new BibliotecaContext(dbContextOptions);
-                context.Database.Migrate();
+                    "TestScheme", _ => { });
             });
         }
 

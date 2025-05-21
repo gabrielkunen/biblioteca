@@ -44,6 +44,7 @@ namespace Biblioteca.Api.Controller
         /// <response code="500">Erro interno</response>
         [HttpPost]
         [Authorize(Roles = "SuperAdministrador")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         [ProducesResponseType(typeof(RetornarCadastroModel), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status401Unauthorized)]
@@ -51,6 +52,8 @@ namespace Biblioteca.Api.Controller
         [ProducesResponseType(typeof(RespostaPadraoModel), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post([FromBody] CadastrarFuncionarioViewModel viewModel)
         {
+            return FalhaRequisicao(new CustomErrorModel(ECodigoErro.BadRequest, "Método desativado neste ambiente"));
+            
             if (viewModel is null)
                 return FalhaRequisicao(new CustomErrorModel(ECodigoErro.BadRequest, "Corpo de requisição não enviada"));
             

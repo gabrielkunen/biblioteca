@@ -16,7 +16,7 @@ namespace Biblioteca.Api.FunctionalTests.Controller
             Fixture = fixture;
         }
 
-        [Fact]
+        [Fact(Skip = "Método desativado")]
         public async Task Post_DeveRetornarBadRequestPoisSenhaInvalida()
         {
             // Arrange
@@ -32,7 +32,7 @@ namespace Biblioteca.Api.FunctionalTests.Controller
             responseBody?.Mensagem.Should().Be("A senha precisa respeitar as seguintes regras: Pelo menos 1 letra maiúscula, 1 letra minúscula, 1 número, 1 caracter especial (@$!%*?&) e ter no mínimo 8 caracteres");
         }
 
-        [Fact]
+        [Fact(Skip = "Método desativado")]
         public async Task Post_DeveRetornarBadRequestPoisNomeInvalido()
         {
             // Arrange
@@ -48,7 +48,7 @@ namespace Biblioteca.Api.FunctionalTests.Controller
             responseBody?.Mensagem.Should().Be("O Campo Nome é obrigatório");
         }
 
-        [Fact]
+        [Fact(Skip = "Método desativado")]
         public async Task Post_DeveRetornarBadRequestPoisEmailJaCadastrado()
         {
             // Arrange
@@ -65,7 +65,7 @@ namespace Biblioteca.Api.FunctionalTests.Controller
             responseBody?.Mensagem.Should().Be($"Funcionário com email {Fixture.CadastrarFuncionarioVmValido.Email} já cadastrado.");
         }
 
-        [Fact]
+        [Fact(Skip = "Método desativado")]
         public async Task Post_DeveRetornarCreated()
         {
             // Arrange
@@ -119,7 +119,7 @@ namespace Biblioteca.Api.FunctionalTests.Controller
             responseBody?.Mensagem.Should().Be("Email ou senha inválidos");
         }
 
-        [Fact]
+        [Fact(Skip = "Método desativado")]
         public async Task Logar_DeveRetornarOkLogadoComSucesso()
         {
             // Arrange

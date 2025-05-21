@@ -1,6 +1,7 @@
 using Biblioteca.Api.AppConfig;
 using Biblioteca.Api.Middleware;
 using Biblioteca.Application.Models;
+using Biblioteca.Data.Context;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -51,6 +52,12 @@ app.UseAuthorization();
 
 if(!builder.Environment.IsDevelopment())
     app.UseHttpsRedirection();
+
+await using(var serviceScope = app.Services.CreateAsyncScope())
+await using (var context = serviceScope.ServiceProvider.GetRequiredService<BibliotecaContext>())
+{
+    await context.Database.EnsureCreatedAsync();
+}
 
 app.MapControllers();
 
