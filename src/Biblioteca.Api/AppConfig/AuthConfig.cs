@@ -4,8 +4,16 @@ using System.Text;
 
 namespace Biblioteca.Api.AppConfig;
 
+/// <summary>
+/// Autenticacao
+/// </summary>
 public static class AuthConfig
 {
+    /// <summary>
+    /// Autenticacao
+    /// </summary>
+    /// <param name="services"></param>
+    /// <returns></returns>
     public static IServiceCollection AddAutenticacaoServices(this IServiceCollection services)
     {
         services.AddAuthentication(options =>

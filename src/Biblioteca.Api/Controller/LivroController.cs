@@ -113,7 +113,7 @@ namespace Biblioteca.Api.Controller
         ///       "isbn": "0142406635",
         ///       "codigo": "ABC163",
         ///       "idAutor": 1,
-        ///       "generos": [1, 2]
+        ///       "idsGeneros": [1, 2]
         ///     }
         ///
         /// </remarks>

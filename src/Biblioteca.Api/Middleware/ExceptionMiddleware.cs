@@ -4,6 +4,9 @@ using System.Text.Json;
 
 namespace Biblioteca.Api.Middleware
 {
+    /// <summary>
+    /// ExceptionMiddleware
+    /// </summary>
     public class ExceptionMiddleware
     {
         private readonly RequestDelegate _next;
@@ -17,6 +20,10 @@ namespace Biblioteca.Api.Middleware
             _next = next;
         }
 
+        /// <summary>
+        /// ExceptionMiddleware
+        /// </summary>
+        /// <param name="context"></param>
         public async Task Invoke(HttpContext context)
         {
             try

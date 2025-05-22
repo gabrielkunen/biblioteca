@@ -3,8 +3,16 @@ using Microsoft.OpenApi.Models;
 
 namespace Biblioteca.Api.AppConfig;
 
+/// <summary>
+/// Swagger
+/// </summary>
 public static class SwaggerConfig
 {
+    /// <summary>
+    /// Swagger
+    /// </summary>
+    /// <param name="services"></param>
+    /// <returns></returns>
     public static IServiceCollection AddSwaggerServices(this IServiceCollection services)
     {
         services.ConfigureOptions<SwaggerGenConfig>();

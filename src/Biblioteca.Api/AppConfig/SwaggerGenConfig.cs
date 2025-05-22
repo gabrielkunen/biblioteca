@@ -5,15 +5,26 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Biblioteca.Api.AppConfig;
 
+/// <summary>
+/// Swagger
+/// </summary>
 public class SwaggerGenConfig : IConfigureNamedOptions<SwaggerGenOptions>
 {
     private readonly IApiVersionDescriptionProvider _provider;
 
+    /// <summary>
+    /// Swagger
+    /// </summary>
+    /// <param name="provider"></param>
     public SwaggerGenConfig(IApiVersionDescriptionProvider provider)
     {
         _provider = provider;
     }
 
+    /// <summary>
+    /// Swagger
+    /// </summary>
+    /// <param name="options"></param>
     public void Configure(SwaggerGenOptions options)
     {
         foreach (var description in _provider.ApiVersionDescriptions)
@@ -31,6 +42,11 @@ public class SwaggerGenConfig : IConfigureNamedOptions<SwaggerGenOptions>
         }
     }
 
+    /// <summary>
+    /// Swagger
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="options"></param>
     public void Configure(string? name, SwaggerGenOptions options)
     {
         Configure(options);

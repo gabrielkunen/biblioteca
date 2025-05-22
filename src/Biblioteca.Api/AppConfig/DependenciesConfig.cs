@@ -12,8 +12,16 @@ using Biblioteca.Domain.Interfaces.Repository;
 
 namespace Biblioteca.Api.AppConfig;
 
+/// <summary>
+/// Dependências
+/// </summary>
 public static class DependenciesConfig
 {
+    /// <summary>
+    /// Dependências
+    /// </summary>
+    /// <param name="services"></param>
+    /// <returns></returns>
     public static IServiceCollection ResolveDependencies(this IServiceCollection services)
     {
         services.AddTransient<IAutorRepository, AutorRepository>();
