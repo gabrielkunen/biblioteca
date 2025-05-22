@@ -71,5 +71,5 @@ jobs:
           port: ${{ secrets.CI_SSH_PORT }}
           script: |
             cd /root/biblioteca
-            docker compose pull ${{ secrets.DOCKER_REGISTRY_URL }}/biblioteca-api
+            docker compose pull api
             docker compose up -d api
