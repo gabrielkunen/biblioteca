@@ -10,10 +10,10 @@ namespace Biblioteca.Api.FunctionalTests.Controller
 {
     public class LivroFunctionalTests : BaseFunctionalTests, IClassFixture<ModelsFixture>
     {
-        public ModelsFixture _fixture;
+        public readonly ModelsFixture Fixture;
         public LivroFunctionalTests(FunctionalTestWebApplicationFactory factory, ModelsFixture fixture) : base(factory)
         {
-            _fixture = fixture;
+            Fixture = fixture;
         }
 
         [Fact]
@@ -36,7 +36,7 @@ namespace Biblioteca.Api.FunctionalTests.Controller
         public async Task Post_DeveRetornarBadRequestPoisGenerosInexistentes()
         {
             // Arrange
-            var responsePostAutor = await HttpClient.PostAsJsonAsync("v1/autores", _fixture.CadastrarAutorVmValido);
+            var responsePostAutor = await HttpClient.PostAsJsonAsync("v1/autores", Fixture.CadastrarAutorVmValido);
             var responsePostAutorBody = await responsePostAutor.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
             var request = new CadastrarLivroViewModel { Codigo = "123", Isbn = "1231231231231", Titulo = "O Pequeno Príncipe", IdAutor = responsePostAutorBody!.Id, Generos = [999999] };
@@ -55,10 +55,10 @@ namespace Biblioteca.Api.FunctionalTests.Controller
         public async Task Post_DeveRetornarBadRequestPoisTituloInvalido()
         {
             // Arrange
-            var responsePostAutor = await HttpClient.PostAsJsonAsync("v1/autores", _fixture.CadastrarAutorVmValido);
+            var responsePostAutor = await HttpClient.PostAsJsonAsync("v1/autores", Fixture.CadastrarAutorVmValido);
             var responsePostAutorBody = await responsePostAutor.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
-            var responsePostGenero = await HttpClient.PostAsJsonAsync("v1/generos", _fixture.CadastrarGeneroVmValido);
+            var responsePostGenero = await HttpClient.PostAsJsonAsync("v1/generos", Fixture.CadastrarGeneroVmValido);
             var responsePostGeneroBody = await responsePostGenero.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
             var request = new CadastrarLivroViewModel { Codigo = "123", Isbn = "1231231231231", Titulo = "", IdAutor = responsePostAutorBody!.Id, Generos = [responsePostGeneroBody!.Id] };
@@ -77,10 +77,10 @@ namespace Biblioteca.Api.FunctionalTests.Controller
         public async Task Post_DeveRetornarCreated()
         {
             // Arrange
-            var responsePostAutor = await HttpClient.PostAsJsonAsync("v1/autores", _fixture.CadastrarAutorVmValido);
+            var responsePostAutor = await HttpClient.PostAsJsonAsync("v1/autores", Fixture.CadastrarAutorVmValido);
             var responsePostAutorBody = await responsePostAutor.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
-            var responsePostGenero = await HttpClient.PostAsJsonAsync("v1/generos", _fixture.CadastrarGeneroVmValido);
+            var responsePostGenero = await HttpClient.PostAsJsonAsync("v1/generos", Fixture.CadastrarGeneroVmValido);
             var responsePostGeneroBody = await responsePostGenero.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
             var request = new CadastrarLivroViewModel { Codigo = "123", Isbn = "1231231231231", Titulo = "O Pequeno Príncipe", IdAutor = responsePostAutorBody!.Id, Generos = [responsePostGeneroBody!.Id] };
@@ -100,10 +100,10 @@ namespace Biblioteca.Api.FunctionalTests.Controller
         public async Task BuscarPorId_DeveRetornarOk()
         {
             // Arrange
-            var responsePostAutor = await HttpClient.PostAsJsonAsync("v1/autores", _fixture.CadastrarAutorVmValido);
+            var responsePostAutor = await HttpClient.PostAsJsonAsync("v1/autores", Fixture.CadastrarAutorVmValido);
             var responsePostAutorBody = await responsePostAutor.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
-            var responsePostGenero = await HttpClient.PostAsJsonAsync("v1/generos", _fixture.CadastrarGeneroVmValido);
+            var responsePostGenero = await HttpClient.PostAsJsonAsync("v1/generos", Fixture.CadastrarGeneroVmValido);
             var responsePostGeneroBody = await responsePostGenero.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
             var request = new CadastrarLivroViewModel { Codigo = "123", Isbn = "1231231231231", Titulo = "O Pequeno Príncipe", IdAutor = responsePostAutorBody!.Id, Generos = [responsePostGeneroBody!.Id] };
@@ -160,10 +160,10 @@ namespace Biblioteca.Api.FunctionalTests.Controller
         public async Task Put_DeveRetornarBadRequestPoisAutorInexistente()
         {
             // Arrange
-            var responsePostAutor = await HttpClient.PostAsJsonAsync("v1/autores", _fixture.CadastrarAutorVmValido);
+            var responsePostAutor = await HttpClient.PostAsJsonAsync("v1/autores", Fixture.CadastrarAutorVmValido);
             var responsePostAutorBody = await responsePostAutor.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
-            var responsePostGenero = await HttpClient.PostAsJsonAsync("v1/generos", _fixture.CadastrarGeneroVmValido);
+            var responsePostGenero = await HttpClient.PostAsJsonAsync("v1/generos", Fixture.CadastrarGeneroVmValido);
             var responsePostGeneroBody = await responsePostGenero.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
             var requestLivro = new CadastrarLivroViewModel { Codigo = "123", Isbn = "1231231231231", Titulo = "O Pequeno Príncipe", IdAutor = responsePostAutorBody!.Id, Generos = [responsePostGeneroBody!.Id] };
@@ -187,10 +187,10 @@ namespace Biblioteca.Api.FunctionalTests.Controller
         public async Task Put_DeveRetornarBadRequestPoisGenerosInexistentes()
         {
             // Arrange
-            var responsePostAutor = await HttpClient.PostAsJsonAsync("v1/autores", _fixture.CadastrarAutorVmValido);
+            var responsePostAutor = await HttpClient.PostAsJsonAsync("v1/autores", Fixture.CadastrarAutorVmValido);
             var responsePostAutorBody = await responsePostAutor.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
-            var responsePostGenero = await HttpClient.PostAsJsonAsync("v1/generos", _fixture.CadastrarGeneroVmValido);
+            var responsePostGenero = await HttpClient.PostAsJsonAsync("v1/generos", Fixture.CadastrarGeneroVmValido);
             var responsePostGeneroBody = await responsePostGenero.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
             var requestLivro = new CadastrarLivroViewModel { Codigo = "123", Isbn = "1231231231231", Titulo = "O Pequeno Príncipe", IdAutor = responsePostAutorBody!.Id, Generos = [responsePostGeneroBody!.Id] };
@@ -215,10 +215,10 @@ namespace Biblioteca.Api.FunctionalTests.Controller
         public async Task Put_DeveRetornarBadRequestPoisTituloInvalido()
         {
             // Arrange
-            var responsePostAutor = await HttpClient.PostAsJsonAsync("v1/autores", _fixture.CadastrarAutorVmValido);
+            var responsePostAutor = await HttpClient.PostAsJsonAsync("v1/autores", Fixture.CadastrarAutorVmValido);
             var responsePostAutorBody = await responsePostAutor.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
-            var responsePostGenero = await HttpClient.PostAsJsonAsync("v1/generos", _fixture.CadastrarGeneroVmValido);
+            var responsePostGenero = await HttpClient.PostAsJsonAsync("v1/generos", Fixture.CadastrarGeneroVmValido);
             var responsePostGeneroBody = await responsePostGenero.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
             var requestLivro = new CadastrarLivroViewModel { Codigo = "123", Isbn = "1231231231231", Titulo = "O Pequeno Príncipe", IdAutor = responsePostAutorBody!.Id, Generos = [responsePostGeneroBody!.Id] };
@@ -242,10 +242,10 @@ namespace Biblioteca.Api.FunctionalTests.Controller
         public async Task Put_DeveRetornarOk()
         {
             // Arrange
-            var responsePostAutor = await HttpClient.PostAsJsonAsync("v1/autores", _fixture.CadastrarAutorVmValido);
+            var responsePostAutor = await HttpClient.PostAsJsonAsync("v1/autores", Fixture.CadastrarAutorVmValido);
             var responsePostAutorBody = await responsePostAutor.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
-            var responsePostGenero = await HttpClient.PostAsJsonAsync("v1/generos", _fixture.CadastrarGeneroVmValido);
+            var responsePostGenero = await HttpClient.PostAsJsonAsync("v1/generos", Fixture.CadastrarGeneroVmValido);
             var responsePostGeneroBody = await responsePostGenero.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
             var requestLivro = new CadastrarLivroViewModel { Codigo = "123", Isbn = "1231231231231", Titulo = "O Pequeno Príncipe", IdAutor = responsePostAutorBody!.Id, Generos = [responsePostGeneroBody!.Id] };
@@ -286,18 +286,16 @@ namespace Biblioteca.Api.FunctionalTests.Controller
         public async Task Delete_DeveRetornarOk()
         {
             // Arrange
-            var responsePostAutor = await HttpClient.PostAsJsonAsync("v1/autores", _fixture.CadastrarAutorVmValido);
+            var responsePostAutor = await HttpClient.PostAsJsonAsync("v1/autores", Fixture.CadastrarAutorVmValido);
             var responsePostAutorBody = await responsePostAutor.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
-            var responsePostGenero = await HttpClient.PostAsJsonAsync("v1/generos", _fixture.CadastrarGeneroVmValido);
+            var responsePostGenero = await HttpClient.PostAsJsonAsync("v1/generos", Fixture.CadastrarGeneroVmValido);
             var responsePostGeneroBody = await responsePostGenero.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
             var requestLivro = new CadastrarLivroViewModel { Codigo = "123", Isbn = "1231231231231", Titulo = "O Pequeno Príncipe", IdAutor = responsePostAutorBody!.Id, Generos = [responsePostGeneroBody!.Id] };
 
             var responsePostLivro = await HttpClient.PostAsJsonAsync("v1/livros", requestLivro);
             var responsePostLivroBody = await responsePostLivro.Content.ReadFromJsonAsync<RetornarCadastroModel>();
-
-            var request = new AtualizarLivroViewModel { Codigo = "123", Isbn = "1231231231231", Titulo = "O Pequeno Príncipe 2", IdAutor = responsePostAutorBody!.Id, IdsGeneros = [responsePostGeneroBody!.Id] };
 
             // Act
             var response = await HttpClient.DeleteAsync($"v1/livros/{responsePostLivroBody?.Id}");

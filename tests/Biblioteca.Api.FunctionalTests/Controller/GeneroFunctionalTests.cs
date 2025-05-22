@@ -11,10 +11,10 @@ namespace Biblioteca.Api.FunctionalTests.Controller
 {
     public class GeneroFunctionalTests : BaseFunctionalTests, IClassFixture<ModelsFixture>
     {
-        public ModelsFixture _fixture;
+        public readonly ModelsFixture Fixture;
         public GeneroFunctionalTests(FunctionalTestWebApplicationFactory factory, ModelsFixture fixture) : base(factory)
         {
-            _fixture = fixture;
+            Fixture = fixture;
         }
 
         [Fact]
@@ -39,7 +39,7 @@ namespace Biblioteca.Api.FunctionalTests.Controller
             // Arrange
 
             // Act
-            var response = await HttpClient.PostAsJsonAsync("v1/generos", _fixture.CadastrarGeneroVmValido);
+            var response = await HttpClient.PostAsJsonAsync("v1/generos", Fixture.CadastrarGeneroVmValido);
             var responseBody = await response.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
             // Assert
@@ -56,7 +56,7 @@ namespace Biblioteca.Api.FunctionalTests.Controller
             var idGenero = 999999;
 
             // Act
-            var response = await HttpClient.PutAsJsonAsync($"v1/generos/{idGenero}", _fixture.AtualizarGeneroVmValido);
+            var response = await HttpClient.PutAsJsonAsync($"v1/generos/{idGenero}", Fixture.AtualizarGeneroVmValido);
             var responseBody = await response.Content.ReadFromJsonAsync<RespostaPadraoModel>();
 
             // Assert
@@ -69,7 +69,7 @@ namespace Biblioteca.Api.FunctionalTests.Controller
         public async Task Put_DeveRetornarBadRequestPoisNomeInvalido()
         {
             // Arrange
-            var responsePost = await HttpClient.PostAsJsonAsync("v1/generos", _fixture.CadastrarGeneroVmValido);
+            var responsePost = await HttpClient.PostAsJsonAsync("v1/generos", Fixture.CadastrarGeneroVmValido);
             var responsePostBody = await responsePost.Content.ReadFromJsonAsync<RetornarCadastroModel>();
             var request = new AtualizarGeneroViewModel { Nome = "" };
 
@@ -87,11 +87,11 @@ namespace Biblioteca.Api.FunctionalTests.Controller
         public async Task Put_DeveRetornarOk()
         {
             // Arrange
-            var responsePost = await HttpClient.PostAsJsonAsync("v1/generos", _fixture.CadastrarGeneroVmValido);
+            var responsePost = await HttpClient.PostAsJsonAsync("v1/generos", Fixture.CadastrarGeneroVmValido);
             var responsePostBody = await responsePost.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
             // Act
-            var response = await HttpClient.PutAsJsonAsync($"v1/generos/{responsePostBody?.Id}", _fixture.AtualizarGeneroVmValido);
+            var response = await HttpClient.PutAsJsonAsync($"v1/generos/{responsePostBody?.Id}", Fixture.AtualizarGeneroVmValido);
             var responseBody = await response.Content.ReadFromJsonAsync<RetornarAtualizaModel>();
 
             // Assert
@@ -121,7 +121,7 @@ namespace Biblioteca.Api.FunctionalTests.Controller
         public async Task Delete_DeveRetornarOk()
         {
             // Arrange
-            var responsePost = await HttpClient.PostAsJsonAsync("v1/generos", _fixture.CadastrarGeneroVmValido);
+            var responsePost = await HttpClient.PostAsJsonAsync("v1/generos", Fixture.CadastrarGeneroVmValido);
             var responsePostBody = await responsePost.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
             // Act
@@ -138,10 +138,10 @@ namespace Biblioteca.Api.FunctionalTests.Controller
         public async Task Delete_DeveRetornarBadRequestPoisPossuiLivrosCadastrados()
         {
             // Arrange
-            var responsePost = await HttpClient.PostAsJsonAsync("v1/autores", _fixture.CadastrarAutorVmValido);
+            var responsePost = await HttpClient.PostAsJsonAsync("v1/autores", Fixture.CadastrarAutorVmValido);
             var responsePostBody = await responsePost.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
-            var responsePostGenero = await HttpClient.PostAsJsonAsync("v1/generos", _fixture.CadastrarGeneroVmValido);
+            var responsePostGenero = await HttpClient.PostAsJsonAsync("v1/generos", Fixture.CadastrarGeneroVmValido);
             var responsePostGeneroBody = await responsePostGenero.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
             var requestLivroPost = new CadastrarLivroViewModel

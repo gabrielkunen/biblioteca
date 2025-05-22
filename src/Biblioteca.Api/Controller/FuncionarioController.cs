@@ -91,7 +91,7 @@ namespace Biblioteca.Api.Controller
         public IActionResult Post([FromBody] LogarFuncionarioViewModel viewModel)
         {
             if (viewModel is null)
-                return FalhaRequisicao(new CustomErrorModel(ECodigoErro.BadRequest, "Corpo de requisição não enviada"));
+                return FalhaRequisicao(new CustomErrorModel(ECodigoErro.BadRequest, "Corpo de requisição não enviada ou inválida"));
             
             var retorno = funcionarioService.Logar(viewModel);
 

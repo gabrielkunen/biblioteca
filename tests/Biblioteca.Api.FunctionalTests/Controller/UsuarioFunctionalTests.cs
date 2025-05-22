@@ -12,10 +12,10 @@ namespace Biblioteca.Api.FunctionalTests.Controller
 {
     public class UsuarioFunctionalTests : BaseFunctionalTests, IClassFixture<ModelsFixture>
     {
-        public ModelsFixture _fixture;
+        public readonly ModelsFixture Fixture;
         public UsuarioFunctionalTests(FunctionalTestWebApplicationFactory factory, ModelsFixture fixture) : base(factory)
         {
-            _fixture = fixture;
+            Fixture = fixture;
         }
 
         [Fact]
@@ -38,17 +38,17 @@ namespace Biblioteca.Api.FunctionalTests.Controller
         public async Task Post_DeveRetornarBadRequestPoisEmailJaCadastrado()
         {
             // Arrange
-            var responseUsuario = await HttpClient.PostAsJsonAsync("v1/usuarios", _fixture.CadastrarUsuarioVmValido);
+            var responseUsuario = await HttpClient.PostAsJsonAsync("v1/usuarios", Fixture.CadastrarUsuarioVmValido);
             await responseUsuario.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
             // Act
-            var response = await HttpClient.PostAsJsonAsync("v1/usuarios", _fixture.CadastrarUsuarioVmValido);
+            var response = await HttpClient.PostAsJsonAsync("v1/usuarios", Fixture.CadastrarUsuarioVmValido);
             var responseBody = await response.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             responseBody?.Sucesso.Should().BeFalse();
-            responseBody?.Mensagem.Should().Be($"Usuário com email {_fixture.CadastrarUsuarioVmValido.Email} já cadastrado.");
+            responseBody?.Mensagem.Should().Be($"Usuário com email {Fixture.CadastrarUsuarioVmValido.Email} já cadastrado.");
         }
 
         [Fact]
@@ -146,7 +146,7 @@ namespace Biblioteca.Api.FunctionalTests.Controller
             var idUsuario = 999999;
 
             // Act
-            var response = await HttpClient.PutAsJsonAsync($"v1/usuarios/{idUsuario}", _fixture.AtualizarUsuarioVmValido);
+            var response = await HttpClient.PutAsJsonAsync($"v1/usuarios/{idUsuario}", Fixture.AtualizarUsuarioVmValido);
             var responseBody = await response.Content.ReadFromJsonAsync<RespostaPadraoModel>();
 
             // Assert

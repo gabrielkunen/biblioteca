@@ -11,10 +11,10 @@ namespace Biblioteca.Api.FunctionalTests.Controller
 {
     public class AutorFunctionalTests : BaseFunctionalTests, IClassFixture<ModelsFixture>
     {
-        public ModelsFixture _fixture;
+        public readonly ModelsFixture Fixture;
         public AutorFunctionalTests(FunctionalTestWebApplicationFactory factory, ModelsFixture fixture) : base(factory)
         {
-            _fixture = fixture;
+            Fixture = fixture;
         }
 
         [Fact]
@@ -39,7 +39,7 @@ namespace Biblioteca.Api.FunctionalTests.Controller
             // Arrange
 
             // Act
-            var response = await HttpClient.PostAsJsonAsync("v1/autores", _fixture.CadastrarAutorVmValido);
+            var response = await HttpClient.PostAsJsonAsync("v1/autores", Fixture.CadastrarAutorVmValido);
             var responseBody = await response.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
             // Assert
@@ -53,7 +53,7 @@ namespace Biblioteca.Api.FunctionalTests.Controller
         public async Task BuscarPorId_DeveRetornarOk()
         {
             // Arrange
-            var responsePost = await HttpClient.PostAsJsonAsync("v1/autores", _fixture.CadastrarAutorVmValido);
+            var responsePost = await HttpClient.PostAsJsonAsync("v1/autores", Fixture.CadastrarAutorVmValido);
             var responsePostBody = await responsePost.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
             // Act
@@ -103,7 +103,7 @@ namespace Biblioteca.Api.FunctionalTests.Controller
         public async Task Delete_DeveRetornarOk()
         {
             // Arrange
-            var responsePost = await HttpClient.PostAsJsonAsync("v1/autores", _fixture.CadastrarAutorVmValido);
+            var responsePost = await HttpClient.PostAsJsonAsync("v1/autores", Fixture.CadastrarAutorVmValido);
             var responsePostBody = await responsePost.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
             // Act
@@ -120,7 +120,7 @@ namespace Biblioteca.Api.FunctionalTests.Controller
         public async Task Delete_DeveRetornarBadRequestPoisPossuiLivrosCadastrados()
         {
             // Arrange
-            var responsePost = await HttpClient.PostAsJsonAsync("v1/autores", _fixture.CadastrarAutorVmValido);
+            var responsePost = await HttpClient.PostAsJsonAsync("v1/autores", Fixture.CadastrarAutorVmValido);
             var responsePostBody = await responsePost.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
             var requestLivroPost = new CadastrarLivroViewModel
@@ -139,7 +139,7 @@ namespace Biblioteca.Api.FunctionalTests.Controller
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             responseBody?.Sucesso.Should().BeFalse();
-            responseBody?.Mensagem.Should().Be($"Não é possível excluir este autor pois ele possui livros cadastrados.");
+            responseBody?.Mensagem.Should().Be($"Não é possível excluir este autor, pois ele possui livros cadastrados.");
         }
 
         [Fact]
@@ -149,7 +149,7 @@ namespace Biblioteca.Api.FunctionalTests.Controller
             var idAutor = 999999;
 
             // Act
-            var response = await HttpClient.PutAsJsonAsync($"v1/autores/{idAutor}", _fixture.AtualizarAutorVmValido);
+            var response = await HttpClient.PutAsJsonAsync($"v1/autores/{idAutor}", Fixture.AtualizarAutorVmValido);
             var responseBody = await response.Content.ReadFromJsonAsync<RespostaPadraoModel>();
 
             // Assert
@@ -162,7 +162,7 @@ namespace Biblioteca.Api.FunctionalTests.Controller
         public async Task Put_DeveRetornarBadRequestPoisNomeInvalido()
         {
             // Arrange
-            var responsePost = await HttpClient.PostAsJsonAsync("v1/autores", _fixture.CadastrarAutorVmValido);
+            var responsePost = await HttpClient.PostAsJsonAsync("v1/autores", Fixture.CadastrarAutorVmValido);
             var responsePostBody = await responsePost.Content.ReadFromJsonAsync<RetornarCadastroModel>();
             var request = new AtualizarAutorViewModel { Nome = "" };
 
@@ -180,11 +180,11 @@ namespace Biblioteca.Api.FunctionalTests.Controller
         public async Task Put_DeveRetornarOk()
         {
             // Arrange
-            var responsePost = await HttpClient.PostAsJsonAsync("v1/autores", _fixture.CadastrarAutorVmValido);
+            var responsePost = await HttpClient.PostAsJsonAsync("v1/autores", Fixture.CadastrarAutorVmValido);
             var responsePostBody = await responsePost.Content.ReadFromJsonAsync<RetornarCadastroModel>();
 
             // Act
-            var response = await HttpClient.PutAsJsonAsync($"v1/autores/{responsePostBody?.Id}", _fixture.AtualizarAutorVmValido);
+            var response = await HttpClient.PutAsJsonAsync($"v1/autores/{responsePostBody?.Id}", Fixture.AtualizarAutorVmValido);
             var responseBody = await response.Content.ReadFromJsonAsync<RetornarAtualizaModel>();
 
             // Assert

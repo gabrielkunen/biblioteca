@@ -1,7 +1,6 @@
 ﻿using Biblioteca.Data.Context;
 using Biblioteca.Domain.Entities;
 using Biblioteca.Domain.Interfaces.Repository;
-using Microsoft.EntityFrameworkCore;
 
 namespace Biblioteca.Data.Repository
 {

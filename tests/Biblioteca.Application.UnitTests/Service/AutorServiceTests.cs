@@ -11,15 +11,15 @@ namespace Biblioteca.Application.UnitTests.Service
 {
     public class AutorServiceTests
     {
-        private readonly AutorService service;
-        private readonly Mock<IAutorRepository> autorRepoMock;
-        private readonly Mock<IUnitOfWork> unitOfWorkMock;
+        private readonly AutorService _service;
+        private readonly Mock<IAutorRepository> _autorRepoMock;
+        private readonly Mock<IUnitOfWork> _unitOfWorkMock;
 
         public AutorServiceTests() 
         {
-            autorRepoMock = new Mock<IAutorRepository>();
-            unitOfWorkMock = new Mock<IUnitOfWork>();
-            service = new AutorService(autorRepoMock.Object, unitOfWorkMock.Object);
+            _autorRepoMock = new Mock<IAutorRepository>();
+            _unitOfWorkMock = new Mock<IUnitOfWork>();
+            _service = new AutorService(_autorRepoMock.Object, _unitOfWorkMock.Object);
         }
 
         [Fact]
@@ -29,7 +29,7 @@ namespace Biblioteca.Application.UnitTests.Service
             var model = new CadastrarAutorViewModel { Nome = "" };
 
             // Act
-            var retorno = await service.Cadastrar(model);
+            var retorno = await _service.Cadastrar(model);
 
             // Assert
             retorno.IsFailure.Should().BeTrue();
@@ -42,10 +42,10 @@ namespace Biblioteca.Application.UnitTests.Service
             // Arrange
             var model = new CadastrarAutorViewModel { Nome = "Gabriel", DataNascimento = new DateTime(1995, 12, 20) };
 
-            autorRepoMock.Setup(mock => mock.Cadastrar(It.IsAny<Autor>())).Returns(Task.FromResult(1));
+            _autorRepoMock.Setup(mock => mock.Cadastrar(It.IsAny<Autor>())).Returns(Task.FromResult(1));
 
             // Act
-            var retorno = await service.Cadastrar(model);
+            var retorno = await _service.Cadastrar(model);
 
             // Assert
             retorno.IsSuccess.Should().BeTrue();
@@ -58,10 +58,10 @@ namespace Biblioteca.Application.UnitTests.Service
             // Arrange
             var model = new AtualizarAutorViewModel { Nome = "William", DataNascimento = new DateTime(1995, 12, 20) };
 
-            autorRepoMock.Setup(mock => mock.Buscar(It.IsAny<int>())).Returns((Autor?)null);
+            _autorRepoMock.Setup(mock => mock.Buscar(It.IsAny<int>())).Returns((Autor?)null);
 
             // Act
-            var retorno = await service.Atualizar(1, model);
+            var retorno = await _service.Atualizar(1, model);
 
             // Assert
             retorno.IsFailure.Should().BeTrue();
@@ -74,10 +74,10 @@ namespace Biblioteca.Application.UnitTests.Service
             // Arrange
             var model = new AtualizarAutorViewModel { Nome = "", DataNascimento = new DateTime(1995, 12, 20) };
 
-            autorRepoMock.Setup(mock => mock.Buscar(It.IsAny<int>())).Returns((Autor?)null);
+            _autorRepoMock.Setup(mock => mock.Buscar(It.IsAny<int>())).Returns((Autor?)null);
 
             // Act
-            var retorno = await service.Atualizar(1, model);
+            var retorno = await _service.Atualizar(1, model);
 
             // Assert
             retorno.IsFailure.Should().BeTrue();
@@ -90,10 +90,10 @@ namespace Biblioteca.Application.UnitTests.Service
             // Arrange
             var model = new AtualizarAutorViewModel { Nome = "William", DataNascimento = new DateTime(1995, 12, 20) };
 
-            autorRepoMock.Setup(mock => mock.Buscar(It.IsAny<int>())).Returns(new Autor("Gabriel", null));
+            _autorRepoMock.Setup(mock => mock.Buscar(It.IsAny<int>())).Returns(new Autor("Gabriel", null));
 
             // Act
-            var retorno = await service.Atualizar(1, model);
+            var retorno = await _service.Atualizar(1, model);
 
             // Assert
             retorno.IsSuccess.Should().BeTrue();

@@ -52,7 +52,7 @@ namespace Biblioteca.Api.Controller
         public async Task<IActionResult> Post([FromBody] CadastrarLivroViewModel viewModel)
         {
             if (viewModel is null)
-                return FalhaRequisicao(new CustomErrorModel(ECodigoErro.BadRequest, "Corpo de requisição não enviada"));
+                return FalhaRequisicao(new CustomErrorModel(ECodigoErro.BadRequest, "Corpo de requisição não enviada ou inválida"));
             
             var retorno = await livroService.Cadastrar(viewModel);
 
@@ -134,7 +134,7 @@ namespace Biblioteca.Api.Controller
         public async Task<IActionResult> Put([FromRoute] int id, [FromBody] AtualizarLivroViewModel viewModel)
         {
             if (viewModel is null)
-                return FalhaRequisicao(new CustomErrorModel(ECodigoErro.BadRequest, "Corpo de requisição não enviada"));
+                return FalhaRequisicao(new CustomErrorModel(ECodigoErro.BadRequest, "Corpo de requisição não enviada ou inválida"));
             
             var retorno = await livroService.Atualizar(id, viewModel);
 
@@ -249,7 +249,7 @@ namespace Biblioteca.Api.Controller
         public IActionResult GerarRelatorio([FromBody] GerarRelatorioLivroViewModel viewModel)
         {
             if (viewModel is null)
-                return FalhaRequisicao(new CustomErrorModel(ECodigoErro.BadRequest, "Corpo de requisição não enviada"));
+                return FalhaRequisicao(new CustomErrorModel(ECodigoErro.BadRequest, "Corpo de requisição não enviada ou inválida"));
             
             var retorno = livroService.GerarRelatório(viewModel);
 

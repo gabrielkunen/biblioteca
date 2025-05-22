@@ -24,6 +24,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "7 - Docs", "7 - Docs", "{36CEC7BE-B557-4C1A-B66B-350DEF7D994E}"
 	ProjectSection(SolutionItems) = preProject
 		docs\ef_migration.txt = docs\ef_migration.txt
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6 - Docker", "6 - Docker", "{CDC2F5CA-9645-4C76-8031-4CC8BD592323}"

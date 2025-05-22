@@ -51,7 +51,7 @@ namespace Biblioteca.Api.Controller
         public async Task<IActionResult> Post([FromBody] CadastrarEmprestimoViewModel viewModel)
         {
             if (viewModel is null)
-                return FalhaRequisicao(new CustomErrorModel(ECodigoErro.BadRequest, "Corpo de requisição não enviada"));
+                return FalhaRequisicao(new CustomErrorModel(ECodigoErro.BadRequest, "Corpo de requisição não enviada ou inválida"));
             
             var retorno = await emprestimoService.Cadastrar(viewModel);
 
@@ -90,7 +90,7 @@ namespace Biblioteca.Api.Controller
         public async Task<IActionResult> Devolver([FromBody] DevolverEmprestimoViewModel viewModel)
         {
             if (viewModel is null)
-                return FalhaRequisicao(new CustomErrorModel(ECodigoErro.BadRequest, "Corpo de requisição não enviada"));
+                return FalhaRequisicao(new CustomErrorModel(ECodigoErro.BadRequest, "Corpo de requisição não enviada ou inválida"));
             
             var retorno = await emprestimoService.Devolver(viewModel);
 
@@ -130,7 +130,7 @@ namespace Biblioteca.Api.Controller
         public async Task<IActionResult> Renovar([FromBody] RenovarEmprestimoViewModel viewModel)
         {
             if (viewModel is null)
-                return FalhaRequisicao(new CustomErrorModel(ECodigoErro.BadRequest, "Corpo de requisição não enviada"));
+                return FalhaRequisicao(new CustomErrorModel(ECodigoErro.BadRequest, "Corpo de requisição não enviada ou inválida"));
             
             var retorno = await emprestimoService.Renovar(viewModel);
 

@@ -60,7 +60,7 @@ namespace Biblioteca.Application.Service
 
             var possuiLivro = autorRepository.PossuiLivro(id);
             if (possuiLivro)
-                return CustomResultModel<int>.Failure(new CustomErrorModel(ECodigoErro.BadRequest, "Não é possível excluir este autor pois ele possui livros cadastrados."));
+                return CustomResultModel<int>.Failure(new CustomErrorModel(ECodigoErro.BadRequest, "Não é possível excluir este autor, pois ele possui livros cadastrados."));
 
             autorRepository.Deletar(autor);
             await unitOfWork.Commit();
