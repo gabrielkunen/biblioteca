@@ -56,3 +56,20 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_REGISTRY_URL }}/biblioteca-api:${{ github.sha }}
             ${{ secrets.DOCKER_REGISTRY_URL }}/biblioteca-api:latest
+
+  deploy:
+    runs-on: ubuntu-24.04
+    needs: [docker_registry]
+    steps:
+      - name: Deploy com SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.CI_SSH_HOST }}
+          username: ${{ secrets.CI_SSH_USER }}
+          key: ${{ secrets.CI_SSH_KEY }}
+          passphrase: ${{ secrets.CI_SSH_PASSWORD }}
+          port: ${{ secrets.CI_SSH_PORT }}
+          script: |
+            cd /root/biblioteca
+            docker compose pull ${{ secrets.DOCKER_REGISTRY_URL }}/biblioteca-api
+            docker compose up -d api
